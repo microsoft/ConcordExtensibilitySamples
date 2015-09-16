@@ -43,14 +43,14 @@ def windowsReleasePRJob = job(Utilities.getFullJobName(project, 'windows_release
 
 // Generate the root build flow job for commit
 
-def rootBuildFlowCommitJob = buildFlowJob(getFullJobName(project, '', false)) {
+def rootBuildFlowCommitJob = buildFlowJob(Utilities.getFullJobName(project, '', false)) {
 	configure {
         def buildNeedsWorkspace = it / 'buildNeedsWorkspace'
         buildNeedsWorkspace.setValue('true')
     }
 }
               
-def rootBuildFlowPRJob = buildFlowJob(getFullJobName(project, '', true)) {
+def rootBuildFlowPRJob = buildFlowJob(Utilities.getFullJobName(project, '', true)) {
 	configure {
         def buildNeedsWorkspace = it / 'buildNeedsWorkspace'
         buildNeedsWorkspace.setValue('true')
