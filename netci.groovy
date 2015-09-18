@@ -12,28 +12,28 @@ msbuild Iris\\Iris.sln /p:Configuration=Release&&msbuild HelloWorld\\Cpp\\HelloW
 
 // Generate the builds for debug and release
 
-def windowsDebugJob = job(Utilities.getFullJobName(project, 'windows_debug', false)) {
+def windowsDebugJob = job(InternalUtilities.getFullJobName(project, 'windows_debug', false)) {
   label('windows')
   steps {
     batchFile(debugBuildString)
   }
 }
 
-def windowsReleaseJob = job(Utilities.getFullJobName(project, 'windows_release', false)) {
+def windowsReleaseJob = job(InternalUtilities.getFullJobName(project, 'windows_release', false)) {
   label('windows')
   steps {
     batchFile(releaseBuildString)
   }
 }
              
-def windowsDebugPRJob = job(Utilities.getFullJobName(project, 'windows_debug', true)) {
+def windowsDebugPRJob = job(InternalUtilities.getFullJobName(project, 'windows_debug', true)) {
   label('windows')
   steps {
     batchFile(debugBuildString)
   }
 }
 
-def windowsReleasePRJob = job(Utilities.getFullJobName(project, 'windows_release', true)) {
+def windowsReleasePRJob = job(InternalUtilities.getFullJobName(project, 'windows_release', true)) {
   label('windows')
   steps {
     batchFile(releaseBuildString)
@@ -43,14 +43,14 @@ def windowsReleasePRJob = job(Utilities.getFullJobName(project, 'windows_release
 
 // Generate the root build flow job for commit
 
-def rootBuildFlowCommitJob = buildFlowJob(Utilities.getFullJobName(project, '', false)) {
+def rootBuildFlowCommitJob = buildFlowJob(InternalUtilities.getFullJobName(project, '', false)) {
 	configure {
         def buildNeedsWorkspace = it / 'buildNeedsWorkspace'
         buildNeedsWorkspace.setValue('true')
     }
 }
               
-def rootBuildFlowPRJob = buildFlowJob(Utilities.getFullJobName(project, '', true)) {
+def rootBuildFlowPRJob = buildFlowJob(InternalUtilities.getFullJobName(project, '', true)) {
 	configure {
         def buildNeedsWorkspace = it / 'buildNeedsWorkspace'
         buildNeedsWorkspace.setValue('true')
