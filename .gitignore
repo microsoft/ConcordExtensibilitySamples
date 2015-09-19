@@ -8,6 +8,7 @@ obj
 ipch
 debug/
 release/
+NuGet/
 TestResults/
 BuildResults.xml
 *.results.xml
