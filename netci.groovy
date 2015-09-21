@@ -5,8 +5,8 @@ import jobs.generation.InternalUtilities;
 
 def project = 'Microsoft/ConcordExtensibilitySamples'
 // Define build strings
-def debugBuildString = '''call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\VsDevCmd.bat" && build.cmd /p:Configuration=Debug'''
-def releaseBuildString = '''call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\VsDevCmd.bat" && build.cmd /p:Configuration=Release'''
+def debugBuildString = '''call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\Tools\\VsDevCmd.bat" && build.cmd /p:Configuration=Debug'''
+def releaseBuildString = '''call "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\Tools\\VsDevCmd.bat" && build.cmd /p:Configuration=Release'''
 
 // Generate the builds for debug and release
 
