@@ -31,6 +31,8 @@ def windowsDebugPRJob = job(InternalUtilities.getFullJobName(project, 'windows_d
   }
 }
 
+Utilities.addGithubPRTrigger(windowsDebugPRJob, 'Windows Debug Build')
+
 def windowsReleasePRJob = job(InternalUtilities.getFullJobName(project, 'windows_release', true)) {
   label('windows')
   steps {
@@ -38,47 +40,19 @@ def windowsReleasePRJob = job(InternalUtilities.getFullJobName(project, 'windows
   }
 }
 
+Utilities.addGithubPRTrigger(windowsDebugPRJob, 'Windows Release Build')
 
-// Generate the root build flow job for commit
-
-def rootBuildFlowCommitJob = buildFlowJob(InternalUtilities.getFullJobName(project, '', false)) {
-	configure {
-        def buildNeedsWorkspace = it / 'buildNeedsWorkspace'
-        buildNeedsWorkspace.setValue('true')
-    }
-}
-              
-def rootBuildFlowPRJob = buildFlowJob(InternalUtilities.getFullJobName(project, '', true)) {
-	configure {
-        def buildNeedsWorkspace = it / 'buildNeedsWorkspace'
-        buildNeedsWorkspace.setValue('true')
-    }
-}
-
-Utilities.addBuildJobsInParallel(rootBuildFlowCommitJob, [windowsDebugJob, windowsReleaseJob])
-
-[windowsDebugJob, windowsReleaseJob, rootBuildFlowCommitJob].each { newJob ->
+[windowsDebugJob, windowsReleaseJob].each { newJob ->
   InternalUtilities.addPrivatePermissions(newJob)
   InternalUtilities.addPrivateScm(newJob, project)
   Utilities.addStandardOptions(newJob)
   Utilities.addStandardNonPRParameters(newJob)
+  Utilities.addGithubPushTrigger(newJob)
 }
 
-// Add push triggers for the root build flow job
-
-Utilities.addGithubPushTrigger(rootBuildFlowCommitJob)
-              
-// Finish off the PR jobs
-              
-Utilities.addBuildJobsInParallel(rootBuildFlowPRJob, [windowsDebugPRJob, windowsReleasePRJob])
-
-[windowsDebugPRJob, windowsReleasePRJob, rootBuildFlowPRJob].each { newJob ->
+[windowsDebugPRJob, windowsReleasePRJob].each { newJob ->
   InternalUtilities.addPrivatePermissions(newJob)
   InternalUtilities.addPrivatePRTestSCM(newJob, project)
   Utilities.addStandardOptions(newJob)
   Utilities.addStandardPRParameters(newJob, project)
 }
-
-// Add push triggers for the root build flow job
-
-Utilities.addGithubPRTrigger(rootBuildFlowPRJob)
