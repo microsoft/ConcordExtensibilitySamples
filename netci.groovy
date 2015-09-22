@@ -40,7 +40,7 @@ def windowsReleasePRJob = job(InternalUtilities.getFullJobName(project, 'windows
   }
 }
 
-Utilities.addGithubPRTrigger(windowsDebugPRJob, 'Windows Release Build')
+Utilities.addGithubPRTrigger(windowsReleasePRJob, 'Windows Release Build')
 
 [windowsDebugJob, windowsReleaseJob].each { newJob ->
   InternalUtilities.addPrivatePermissions(newJob)
