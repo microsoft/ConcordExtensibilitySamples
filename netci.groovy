@@ -1,7 +1,6 @@
 // Import the utility functionality.
 
 import jobs.generation.Utilities;
-import jobs.generation.InternalUtilities;
 
 def project = 'Microsoft/ConcordExtensibilitySamples'
 // Define build strings
@@ -10,21 +9,21 @@ def releaseBuildString = '''call "C:\\Program Files (x86)\\Microsoft Visual Stud
 
 // Generate the builds for debug and release
 
-def windowsDebugJob = job(InternalUtilities.getFullJobName(project, 'windows_debug', false)) {
+def windowsDebugJob = job(Utilities.getFullJobName(project, 'windows_debug', false)) {
   label('windows')
   steps {
     batchFile(debugBuildString)
   }
 }
 
-def windowsReleaseJob = job(InternalUtilities.getFullJobName(project, 'windows_release', false)) {
+def windowsReleaseJob = job(Utilities.getFullJobName(project, 'windows_release', false)) {
   label('windows')
   steps {
     batchFile(releaseBuildString)
   }
 }
              
-def windowsDebugPRJob = job(InternalUtilities.getFullJobName(project, 'windows_debug', true)) {
+def windowsDebugPRJob = job(Utilities.getFullJobName(project, 'windows_debug', true)) {
   label('windows')
   steps {
     batchFile(debugBuildString)
@@ -33,7 +32,7 @@ def windowsDebugPRJob = job(InternalUtilities.getFullJobName(project, 'windows_d
 
 Utilities.addGithubPRTrigger(windowsDebugPRJob, 'Windows Debug Build')
 
-def windowsReleasePRJob = job(InternalUtilities.getFullJobName(project, 'windows_release', true)) {
+def windowsReleasePRJob = job(Utilities.getFullJobName(project, 'windows_release', true)) {
   label('windows')
   steps {
     batchFile(releaseBuildString)
@@ -43,16 +42,14 @@ def windowsReleasePRJob = job(InternalUtilities.getFullJobName(project, 'windows
 Utilities.addGithubPRTrigger(windowsReleasePRJob, 'Windows Release Build')
 
 [windowsDebugJob, windowsReleaseJob].each { newJob ->
-  InternalUtilities.addPrivatePermissions(newJob)
-  InternalUtilities.addPrivateScm(newJob, project)
+  Utilities.addScm(newJob, project)
   Utilities.addStandardOptions(newJob)
   Utilities.addStandardNonPRParameters(newJob)
   Utilities.addGithubPushTrigger(newJob)
 }
 
 [windowsDebugPRJob, windowsReleasePRJob].each { newJob ->
-  InternalUtilities.addPrivatePermissions(newJob)
-  InternalUtilities.addPrivatePRTestSCM(newJob, project)
+  Utilities.addPRTestSCM(newJob, project)
   Utilities.addStandardOptions(newJob)
   Utilities.addStandardPRParameters(newJob, project)
 }
