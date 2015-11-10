@@ -100,13 +100,13 @@ namespace IrisCompiler.Import
             }
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetTypeFromDefinition(TypeDefinitionHandle handle)
+        IrisType ISignatureTypeProvider<IrisType>.GetTypeFromDefinition(TypeDefinitionHandle handle, bool? isValueType)
         {
             // Iris doesn't define any types that can be referenced.
             return IrisType.Invalid;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetTypeFromReference(TypeReferenceHandle handle)
+        IrisType ISignatureTypeProvider<IrisType>.GetTypeFromReference(TypeReferenceHandle handle, bool? isValueType)
         {
             // We shouldn't be referencing any non-primitive types.
             return IrisType.Invalid;

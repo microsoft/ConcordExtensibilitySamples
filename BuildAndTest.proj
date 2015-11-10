@@ -82,7 +82,7 @@
           Outputs="$(NuGetToolPath)">
 
     <DownloadFile FileName="$(NuGetToolPath)"
-                  Address="https://www.nuget.org/nuget.exe"
+                  Address="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
                   Condition="!Exists('$(NuGetToolPath)')" />
   </Target>
 
