@@ -3,7 +3,6 @@
 
 using System.Reflection;
 using System.Reflection.Metadata;
-using System.Reflection.Metadata.Decoding;
 
 namespace IrisCompiler.Import
 {
@@ -42,7 +41,7 @@ namespace IrisCompiler.Import
             get
             {
                 if (_cachedType == null)
-                    _cachedType = SignatureDecoder.DecodeFieldSignature(_fieldDef.Signature, Module.IrisTypeProvider);
+                    _cachedType = _fieldDef.DecodeSignature(Module.IrisTypeProvider);
 
                 return _cachedType;
             }
