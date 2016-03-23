@@ -24,7 +24,7 @@ namespace IrisCompiler.Import
             : base(module, methodDef.Name, declaringType)
         {
             _methodDef = methodDef;
-            _signature = SignatureDecoder.DecodeMethodSignature(_methodDef.Signature, Module.IrisTypeProvider);
+            _signature = methodDef.DecodeSignature(Module.IrisTypeProvider);
         }
 
         public override bool IsPublic

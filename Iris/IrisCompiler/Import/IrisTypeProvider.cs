@@ -18,35 +18,22 @@ namespace IrisCompiler.Import
 
         #region ITypeProvider<IrisType> implementation
 
-        public MetadataReader Reader
+        IrisType ITypeProvider<IrisType>.GetTypeFromDefinition(MetadataReader reader, TypeDefinitionHandle handle, SignatureTypeHandleCode code)
         {
-            get
-            {
-                return _reader;
-            }
-        }
-
-        IrisType ITypeProvider<IrisType>.GetArrayType(IrisType elementType, ArrayShape shape)
-        {
-            if (shape.Rank != 1)
-                return IrisType.Invalid;
-
-            return elementType.MakeArrayType();
-        }
-
-        IrisType ITypeProvider<IrisType>.GetByReferenceType(IrisType elementType)
-        {
-            return elementType.MakeByRefType();
-        }
-
-        IrisType ITypeProvider<IrisType>.GetGenericInstance(IrisType genericType, ImmutableArray<IrisType> typeArguments)
-        {
+            // Iris doesn't define any types that can be referenced.
             return IrisType.Invalid;
         }
 
-        IrisType ITypeProvider<IrisType>.GetSZArrayType(IrisType elementType)
+        IrisType ITypeProvider<IrisType>.GetTypeFromReference(MetadataReader reader, TypeReferenceHandle handle, SignatureTypeHandleCode code)
         {
-            return elementType.MakeArrayType();
+            // We shouldn't be referencing any non-primitive types.
+            return IrisType.Invalid;
+        }
+
+        IrisType ITypeProvider<IrisType>.GetTypeFromSpecification(MetadataReader reader, TypeSpecificationHandle handle, SignatureTypeHandleCode code)
+        {
+            TypeSpecification typeSpec = _reader.GetTypeSpecification(handle);
+            return typeSpec.DecodeSignature(this);
         }
 
         #endregion
@@ -68,7 +55,7 @@ namespace IrisCompiler.Import
             return IrisType.Invalid;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetModifiedType(IrisType unmodifiedType, ImmutableArray<CustomModifier<IrisType>> customModifiers)
+        IrisType ISignatureTypeProvider<IrisType>.GetModifiedType(MetadataReader reader, bool isRequired, IrisType modifier, IrisType unmodifiedType)
         {
             return unmodifiedType;
         }
@@ -78,12 +65,33 @@ namespace IrisCompiler.Import
             return IrisType.Invalid;
         }
 
-        IrisType ITypeProvider<IrisType>.GetPointerType(IrisType elementType)
+        IrisType IConstructedTypeProvider<IrisType>.GetPointerType(IrisType elementType)
         {
             return IrisType.Invalid;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetPrimitiveType(PrimitiveTypeCode typeCode)
+        IrisType IConstructedTypeProvider<IrisType>.GetGenericInstance(IrisType genericType, ImmutableArray<IrisType> typeArguments)
+        {
+            return IrisType.Invalid;
+        }
+
+        IrisType IConstructedTypeProvider<IrisType>.GetArrayType(IrisType elementType, ArrayShape shape)
+        {
+            // In the world of .NET metadata, we only support SZArray.
+            return IrisType.Invalid;
+        }
+
+        IrisType IConstructedTypeProvider<IrisType>.GetByReferenceType(IrisType elementType)
+        {
+            return elementType.MakeByRefType();
+        }
+
+        IrisType ISZArrayTypeProvider<IrisType>.GetSZArrayType(IrisType elementType)
+        {
+            return elementType.MakeArrayType();
+        }
+
+        IrisType IPrimitiveTypeProvider<IrisType>.GetPrimitiveType(PrimitiveTypeCode typeCode)
         {
             switch (typeCode)
             {
@@ -98,18 +106,6 @@ namespace IrisCompiler.Import
                 default:
                     return IrisType.Invalid;
             }
-        }
-
-        IrisType ISignatureTypeProvider<IrisType>.GetTypeFromDefinition(TypeDefinitionHandle handle, bool? isValueType)
-        {
-            // Iris doesn't define any types that can be referenced.
-            return IrisType.Invalid;
-        }
-
-        IrisType ISignatureTypeProvider<IrisType>.GetTypeFromReference(TypeReferenceHandle handle, bool? isValueType)
-        {
-            // We shouldn't be referencing any non-primitive types.
-            return IrisType.Invalid;
         }
 
         #endregion

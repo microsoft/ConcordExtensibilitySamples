@@ -131,7 +131,8 @@ namespace IrisCompiler.Import
         public ImmutableArray<IrisType> DecodeLocalVariableTypes(int mdToken)
         {
             StandaloneSignatureHandle localVarSigHandle = (StandaloneSignatureHandle)MetadataTokens.EntityHandle(mdToken);
-            return SignatureDecoder.DecodeLocalSignature(localVarSigHandle, IrisTypeProvider);
+            StandaloneSignature sig = _reader.GetStandaloneSignature(localVarSigHandle);
+            return sig.DecodeLocalSignature(IrisTypeProvider);
         }
 
         internal ImportedType ResolveType(TypeDefinitionHandle handle)
