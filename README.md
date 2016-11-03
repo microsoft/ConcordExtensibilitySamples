@@ -3,8 +3,8 @@ Visual Studio Debug Engine Extensibility Samples
 
 Build | Status
 ------------ | -------------
-Release | [![Build Status](http://dotnet-ci.cloudapp.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_release/badge/icon)](http://dotnet-ci.cloudapp.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_release/)
-Debug | [![Build Status](http://dotnet-ci.cloudapp.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_debug/badge/icon)](http://dotnet-ci.cloudapp.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_debug/)
+Release | [![Build Status](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_release/badge/icon)](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_release/)
+Debug | [![Build Status](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_debug/badge/icon)](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_debug/)
 
 
 ### What are "Concord Extensibility Samples"?
