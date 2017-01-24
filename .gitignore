@@ -18,6 +18,11 @@ BuildResults.xml
 intermediate
 *.metaproj
 *.tmp
+*.VC.opendb
+*.VC.db
 packages/
+.vs/
 Microsoft.VisualStudio.Glass
-
+/Iris/Programs/*.dll
+/Iris/Programs/*.exe
+/Iris/Programs/*.pdb
