@@ -41,7 +41,7 @@ namespace IrisCompiler.Import
             get
             {
                 if (_cachedType == null)
-                    _cachedType = _fieldDef.DecodeSignature(Module.IrisTypeProvider);
+                    _cachedType = _fieldDef.DecodeSignature(Module.IrisTypeProvider, genericContext: null);
 
                 return _cachedType;
             }

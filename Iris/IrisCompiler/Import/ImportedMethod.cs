@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Reflection.Metadata;
-using System.Reflection.Metadata.Decoding;
 
 namespace IrisCompiler.Import
 {
@@ -24,7 +23,7 @@ namespace IrisCompiler.Import
             : base(module, methodDef.Name, declaringType)
         {
             _methodDef = methodDef;
-            _signature = methodDef.DecodeSignature(Module.IrisTypeProvider);
+            _signature = methodDef.DecodeSignature(Module.IrisTypeProvider, genericContext: null);
         }
 
         public override bool IsPublic
