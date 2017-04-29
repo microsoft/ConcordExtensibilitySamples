@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Reflection.Metadata;
-using System.Reflection.Metadata.Decoding;
 using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
 using System.Text;
@@ -132,7 +131,7 @@ namespace IrisCompiler.Import
         {
             StandaloneSignatureHandle localVarSigHandle = (StandaloneSignatureHandle)MetadataTokens.EntityHandle(mdToken);
             StandaloneSignature sig = _reader.GetStandaloneSignature(localVarSigHandle);
-            return sig.DecodeLocalSignature(IrisTypeProvider);
+            return sig.DecodeLocalSignature(IrisTypeProvider, genericContext: null);
         }
 
         internal ImportedType ResolveType(TypeDefinitionHandle handle)

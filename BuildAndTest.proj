@@ -108,7 +108,7 @@
   <Target Name="Test">
  
     <!-- Run Iris front end test -->
-    <Exec Command="mstest /noisolation /testcontainer:&quot;$(IrisDir)\FrontEndTest\bin\$(Configuration)\FrontEndTest.dll&quot;" />
+    <Exec Command="mstest /testcontainer:&quot;$(IrisDir)\FrontEndTest\bin\$(Configuration)\FrontEndTest.dll&quot;" />
     
   </Target>
   

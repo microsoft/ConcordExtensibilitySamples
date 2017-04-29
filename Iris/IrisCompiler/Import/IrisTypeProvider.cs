@@ -3,11 +3,10 @@
 
 using System.Collections.Immutable;
 using System.Reflection.Metadata;
-using System.Reflection.Metadata.Decoding;
 
 namespace IrisCompiler.Import
 {
-    internal class IrisTypeProvider : ISignatureTypeProvider<IrisType>
+    internal class IrisTypeProvider : ISignatureTypeProvider<IrisType, object>
     {
         private MetadataReader _reader;
 
@@ -16,61 +15,86 @@ namespace IrisCompiler.Import
             _reader = reader;
         }
 
-        #region ITypeProvider<IrisType> implementation
+        #region ISimpleTypeProvider<IrisType> implementation
 
-        IrisType ITypeProvider<IrisType>.GetTypeFromDefinition(MetadataReader reader, TypeDefinitionHandle handle, SignatureTypeHandleCode code)
+        IrisType ISimpleTypeProvider<IrisType>.GetTypeFromDefinition(MetadataReader reader, TypeDefinitionHandle handle, byte rawTypeKind)
         {
             // Iris doesn't define any types that can be referenced.
             return IrisType.Invalid;
         }
 
-        IrisType ITypeProvider<IrisType>.GetTypeFromReference(MetadataReader reader, TypeReferenceHandle handle, SignatureTypeHandleCode code)
+        IrisType ISimpleTypeProvider<IrisType>.GetTypeFromReference(MetadataReader reader, TypeReferenceHandle handle, byte rawTypeKind)
         {
             // We shouldn't be referencing any non-primitive types.
             return IrisType.Invalid;
         }
 
-        IrisType ITypeProvider<IrisType>.GetTypeFromSpecification(MetadataReader reader, TypeSpecificationHandle handle, SignatureTypeHandleCode code)
+        IrisType ISimpleTypeProvider<IrisType>.GetPrimitiveType(PrimitiveTypeCode typeCode)
         {
-            TypeSpecification typeSpec = _reader.GetTypeSpecification(handle);
-            return typeSpec.DecodeSignature(this);
+            switch (typeCode)
+            {
+                case PrimitiveTypeCode.Boolean:
+                    return IrisType.Boolean;
+                case PrimitiveTypeCode.Int32:
+                    return IrisType.Integer;
+                case PrimitiveTypeCode.String:
+                    return IrisType.String;
+                case PrimitiveTypeCode.Void:
+                    return IrisType.Void;
+                default:
+                    return IrisType.Invalid;
+            }
         }
 
         #endregion
 
-        #region ISignatureTypeProvider<IrisType> implementation
+        #region ISignatureTypeProvider<IrisType, object> implementation
 
-        IrisType ISignatureTypeProvider<IrisType>.GetFunctionPointerType(MethodSignature<IrisType> signature)
+        IrisType ISignatureTypeProvider<IrisType, object>.GetTypeFromSpecification(
+            MetadataReader reader,
+            object genericContext,
+            TypeSpecificationHandle handle,
+            byte rawTypeKind)
+        {
+            TypeSpecification typeSpec = _reader.GetTypeSpecification(handle);
+            return typeSpec.DecodeSignature(this, genericContext);
+        }
+
+        IrisType ISignatureTypeProvider<IrisType, object>.GetFunctionPointerType(MethodSignature<IrisType> signature)
         {
             return IrisType.Invalid;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetGenericMethodParameter(int index)
+        IrisType ISignatureTypeProvider<IrisType, object>.GetGenericMethodParameter(object genericContext, int index)
         {
             return IrisType.Invalid;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetGenericTypeParameter(int index)
+        IrisType ISignatureTypeProvider<IrisType, object>.GetGenericTypeParameter(object genericContext, int index)
         {
             return IrisType.Invalid;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetModifiedType(MetadataReader reader, bool isRequired, IrisType modifier, IrisType unmodifiedType)
+        IrisType ISignatureTypeProvider<IrisType, object>.GetModifiedType(IrisType modifier, IrisType unmodifiedType, bool isRequired)
         {
             return unmodifiedType;
         }
 
-        IrisType ISignatureTypeProvider<IrisType>.GetPinnedType(IrisType elementType)
+        IrisType ISignatureTypeProvider<IrisType, object>.GetPinnedType(IrisType elementType)
         {
             return IrisType.Invalid;
         }
+
+        #endregion
+
+        #region IConstructedTypeProvider<IrisType> implementation
 
         IrisType IConstructedTypeProvider<IrisType>.GetPointerType(IrisType elementType)
         {
             return IrisType.Invalid;
         }
 
-        IrisType IConstructedTypeProvider<IrisType>.GetGenericInstance(IrisType genericType, ImmutableArray<IrisType> typeArguments)
+        IrisType IConstructedTypeProvider<IrisType>.GetGenericInstantiation(IrisType genericType, ImmutableArray<IrisType> typeArguments)
         {
             return IrisType.Invalid;
         }
@@ -86,26 +110,13 @@ namespace IrisCompiler.Import
             return elementType.MakeByRefType();
         }
 
+        #endregion
+
+        #region ISZArrayTypeProvider<IrisType> implementation
+
         IrisType ISZArrayTypeProvider<IrisType>.GetSZArrayType(IrisType elementType)
         {
             return elementType.MakeArrayType();
-        }
-
-        IrisType IPrimitiveTypeProvider<IrisType>.GetPrimitiveType(PrimitiveTypeCode typeCode)
-        {
-            switch (typeCode)
-            {
-                case PrimitiveTypeCode.Boolean:
-                    return IrisType.Boolean;
-                case PrimitiveTypeCode.Int32:
-                    return IrisType.Integer;
-                case PrimitiveTypeCode.String:
-                    return IrisType.String;
-                case PrimitiveTypeCode.Void:
-                    return IrisType.Void;
-                default:
-                    return IrisType.Invalid;
-            }
         }
 
         #endregion
