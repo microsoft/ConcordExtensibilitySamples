@@ -28,17 +28,8 @@
     <ProjectGuid>{0E22D156-940B-431D-945D-51B7DFA08AEF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>vsix</RootNamespace>
-    <PlatformToolset>v140</PlatformToolset>
-    <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
-
-    <!--Try and find an SDK which is installed-->
-    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)'=='' and Exists('$(MSBuildProgramFiles32)\Windows Kits\10\Include\10.0.14393.0\um\WinBase.h')">10.0.14393.0</WindowsTargetPlatformVersion>
-
-    <!--Failing that, fall back to some defaults-->
-    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)'=='' and '$(VisualStudioVersion)' == '15.0'">10.0.14393.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)'=='' and '$(VisualStudioVersion)' == '14.0'">10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\Cpp.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>NONE</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>

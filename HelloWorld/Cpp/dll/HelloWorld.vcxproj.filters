@@ -39,6 +39,8 @@
     <None Include="HelloWorld.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="packages.config" />
+    <None Include="packages.version.props" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_HelloWorldService.h">
@@ -62,16 +64,21 @@
     <ClInclude Include="$(IntDir)HelloWorld.Contract.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(ConcordSDKDir)Common\inc\vsdebugeng.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\inc\VSDebugEng.h">
+      <Filter>Concord API %28for reference%29</Filter>
     </ClInclude>
-    <ClInclude Include="$(ConcordSDKDir)Common\inc\inc\vsdebugeng.templates.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\inc\vsdebugeng.templates.h">
+      <Filter>Concord API %28for reference%29</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HelloWorld.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\content\vsdconfig.xsd">
+      <Filter>Concord API %28for reference%29</Filter>
+    </None>
   </ItemGroup>
 </Project>
