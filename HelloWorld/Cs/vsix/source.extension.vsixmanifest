@@ -6,7 +6,7 @@
     <Description xml:space="preserve">C# HelloWorld Debugger Sample</Description>
   </Metadata>
   <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0, 15.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0, 16.0]" />
   </Installation>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Debugger" Version="[15.0,)" DisplayName="Visual Studio Debugger" />
