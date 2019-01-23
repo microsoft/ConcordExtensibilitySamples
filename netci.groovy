@@ -18,7 +18,7 @@ def branch = GithubBranchName
         // and calls made within that closure apply to the newly created job.
         def newJob = job(newJobName) {
             steps {
-                batchFile("call \"C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\Tools\\VsDevCmd.bat\" && build.cmd /p:Configuration=${configuration}")
+                batchFile("call build.cmd /p:Configuration=${configuration}")
             }
         }
         
