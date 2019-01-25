@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Copyright (c) Microsoft. All rights reserved.
+Licensed under the MIT license. See LICENSE file in the project root for full license information.
+-->
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+  <Type Name="_FILETIME">
+    <!--NOTE: The 'VisualizerId' is also specified in the .vsdconfigxml to control which
+    implementation of IDkmCustomVisualizer is used.-->
+    <CustomVisualizer VisualizerId="8E723FD7-611E-40E7-98C0-624D8873F559"/>
+  </Type>
+</AutoVisualizer>
