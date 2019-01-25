@@ -7,9 +7,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)'=='' ">Debug</Configuration>
     <OutDir Condition=" '$(OutDir)'=='' ">$(MSBuildThisFileDirectory)bin\$(Configuration)\</OutDir>
-    <NuGetToolPath Condition="'$(NuGetToolPath)'==''">$(MSBuildThisFileDirectory)\NuGet\NuGet.exe</NuGetToolPath>
-    <IrisDir Condition="'$(IrisPath)'==''">$(MSBuildThisFileDirectory)\Iris\</IrisDir>
-    <HelloWorldDir Condition="'$(HelloWorldPath)'==''">$(MSBuildThisFileDirectory)\HelloWorld\</HelloWorldDir>
+    <NuGetToolPath Condition="'$(NuGetToolPath)'==''">$(MSBuildThisFileDirectory)NuGet\NuGet.exe</NuGetToolPath>
+    <IrisDir Condition="'$(IrisPath)'==''">$(MSBuildThisFileDirectory)Iris\</IrisDir>
+    <HelloWorldDir Condition="'$(HelloWorldPath)'==''">$(MSBuildThisFileDirectory)HelloWorld\</HelloWorldDir>
 
     <TargetsToRun>Build;Test</TargetsToRun>
   </PropertyGroup>
@@ -73,8 +73,14 @@
   </UsingTask>
 
   <ItemGroup>
-    <Solution Include="$(IrisDir)Iris.sln;$(HelloWorldDir)**\*.sln">
+    <Solution Include="$(IrisDir)Iris.sln;$(HelloWorldDir)cs\HelloWorld.sln">
       <AdditionalProperties>Configuration=$(Configuration)</AdditionalProperties>
+    </Solution>
+    <Solution Include="$(HelloWorldDir)cpp\HelloWorld.sln">
+      <AdditionalProperties>Configuration=$(Configuration);Platform=Win32</AdditionalProperties>
+    </Solution>
+    <Solution Include="$(MSBuildThisFileDirectory)CppCustomVisualizer\CppCustomVisualizer.sln">
+      <AdditionalProperties>Configuration=$(Configuration);Platform=x86</AdditionalProperties>
     </Solution>
   </ItemGroup>
 
