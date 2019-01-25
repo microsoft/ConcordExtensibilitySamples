@@ -12,4 +12,4 @@ Custom Visualizers are useful when formatting a type is too complicated to be do
 Natvis documentation can be found on [docs.microsoft.com](https://docs.microsoft.com/en-us/visualstudio/debugger/create-custom-views-of-native-objects).
 
 ## How to use this sample
-More information about this sample can be found in the [Wiki for this project](https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/C-C---Custom-Visualizer-Sample).
+More information about this sample can be found in the [Wiki for this project]https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/Cpp-Custom-Visualizer-Sample).

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="vsix..96d2707a-406e-423d-bbea-eb81c05d2b89" Version="1.0" Language="en-US" Publisher="Sample" />
+    <Identity Id="8F12C6F5-BE35-4DDD-B452-44811F0A3A4D" Version="1.0" Language="en-US" Publisher="Sample" />
     <DisplayName>CppCustomVisualizer Debugger Sample</DisplayName>
     <Description xml:space="preserve">CppCustomVisualizer Debugger Sample</Description>
   </Metadata>

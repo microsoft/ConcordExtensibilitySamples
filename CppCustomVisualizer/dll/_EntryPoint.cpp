@@ -13,7 +13,7 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::EvaluateVisualizedExpress
 {
     HRESULT hr;
 
-    // This method is called to visualize the FILETIME variable. Its basic job is to create
+    // This method is called to visualize a FILETIME variable. Its basic job is to create
     // a DkmEvaluationResult object. A DkmEvaluationResult is the data that backs a row in the
     // watch window -- a name, value, and type, a flag indicating if the item can be expanded, and
     // lots of other additional properties.
@@ -95,7 +95,10 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::EvaluateVisualizedExpress
 
     DkmEvaluationResultFlags_t resultFlags = DkmEvaluationResultFlags::Expandable;
     if (strEditableValue.IsEmpty())
+    {
+        // We only allow editting pointers, so mark non-pointers as read-only
         resultFlags |= DkmEvaluationResultFlags::ReadOnly;
+    }
 
     CComPtr<DkmSuccessEvaluationResult> pSuccessEvaluationResult;
     hr = DkmSuccessEvaluationResult::Create(
@@ -156,7 +159,7 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::UseDefaultEvaluationBehav
 
     DkmInspectionContext* pParentInspectionContext = pVisualizedExpression->InspectionContext();
 
-    CComPtr<DkmLanguageExpression> pLanguageExpression;
+    CAutoDkmClosePtr<DkmLanguageExpression> pLanguageExpression;
     hr = DkmLanguageExpression::Create(
         pParentInspectionContext->Language(),
         DkmEvaluationFlags::TreatAsExpression,
@@ -294,6 +297,7 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
 
     int cch;
 
+    // Deterime how much to allocate for the date
     cch = GetDateFormatW(
         GetThreadLocale(),
         DATE_SHORTDATE,
@@ -309,8 +313,9 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
 
     int allocLength = cch
         - 1 // To convert from a character count (including null terminator) to a length
-        + 1; // For the space (' ') character
+        + 1; // For the space (' ') character between the date and time
 
+    // Deterime how much to allocate for the time
     cch = GetTimeFormatW(
         GetThreadLocale(),
         /*flags*/0,
@@ -328,6 +333,7 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
     CString result;
     LPWSTR pBuffer = result.GetBuffer(allocLength);
 
+    // Add the date
     cch = GetDateFormatW(
         GetThreadLocale(),
         DATE_SHORTDATE,
@@ -344,13 +350,16 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
     pBuffer += (cch-1); // '-1' is to convert from a character count (including null terminator) to a length
     int remainaingLength = allocLength - (cch-1);
 
+    // Add a space between the date and the time
     if (remainaingLength <= 1)
+    {
         return HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER);
-
+    }
     *pBuffer = ' ';
     pBuffer++;
     remainaingLength--;
 
+    // Add the time
     cch = GetTimeFormatW(
         GetThreadLocale(),
         /*flags*/0,
