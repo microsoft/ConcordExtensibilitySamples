@@ -18,7 +18,7 @@
     <NugetPackagesDirectory>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\packages\))</NugetPackagesDirectory>
   </PropertyGroup>
   <Import Project="packages.version.props" />
-  <Import Project="..\Cpp.props"/>
+  <Import Project="..\Cpp.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfAtl>Dynamic</UseOfAtl>
@@ -143,10 +143,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\Microsoft.VSSDK.Debugger.VSDConfigTool.targets" Condition="Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\Microsoft.VSSDK.Debugger.VSDConfigTool.targets')" />
-    <Import Project="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\Microsoft.VSSDK.Debugger.VSDebugEng.targets" Condition="Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\Microsoft.VSSDK.Debugger.VSDebugEng.targets')" />
+    <Import Project="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\Microsoft.VSSDK.Debugger.VSDebugEng.targets" Condition="Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\Microsoft.VSSDK.Debugger.VSDebugEng.targets')" />
   </ImportGroup>
   <Target Name="VerifyConcordNugetPackagesRestored" BeforeTargets="PrepareForBuild">
     <Error Condition="!Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\Microsoft.VSSDK.Debugger.VSDConfigTool.targets')" Text="Could not find Microsoft.VSSDK.Debugger.VSDConfigTool.targets. Right click on the solution and restore NuGet packages." />
-    <Error Condition="!Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\Microsoft.VSSDK.Debugger.VSDebugEng.targets')" Text="Could not find Microsoft.VSSDK.Debugger.VSDebugEng.targets. Right click on the solution and restore NuGet packages." />
+    <Error Condition="!Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\Microsoft.VSSDK.Debugger.VSDebugEng.targets')" Text="Could not find Microsoft.VSSDK.Debugger.VSDebugEng.targets. Right click on the solution and restore NuGet packages." />
   </Target>
 </Project>
