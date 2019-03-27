@@ -33,7 +33,7 @@
     <!--NOTE: Ideally the version of this package would be set to 'ConcordPackageVersion', and ConcordPackageVersion
     would be set to the minimum version of Visual Studio supported by an extension. However, the
     Microsoft.VSSDK.Debugger.VSDConfigTool package is new for VS 16 (Visual Studio 2019).-->
-    <VSDConfigToolVersion>16.0.2012201-preview</VSDConfigToolVersion>
+    <VSDConfigToolVersion>16.0.2032702</VSDConfigToolVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
