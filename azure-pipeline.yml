@@ -1,0 +1,38 @@
+
+name: $(Date:yyyMMdd).$(Rev:r)
+pr:
+- 'master'
+jobs:
+- job: Debug
+  pool: 'Hosted VS2017'
+  steps:
+  - task: MSBuild@1
+    inputs:
+      solution: 'Build.proj'
+      configuration: 'Debug'
+  - task: VSTest@2
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: '$(Build.SourcesDirectory)\Iris\FrontEndTest\bin\Debug\FrontEndTest.dll'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '*.trx' 
+      testRunTitle: '$(Build.DefinitionName)_$(Build.BuildNumber)_Debug'
+      searchFolder: '$(Build.SourcesDirectory)\TestResults'
+
+- job: Release
+  pool: 'Hosted VS2017'
+  steps:
+  - task: MSBuild@1
+    inputs:
+      solution: 'Build.proj'
+      configuration: 'Release'
+  - task: VSTest@2
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: '$(Build.SourcesDirectory)\Iris\FrontEndTest\bin\Release\FrontEndTest.dll'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '*.trx' 
+      testRunTitle: '$(Build.DefinitionName)_$(Build.BuildNumber)_Release'
+      searchFolder: '$(Build.SourcesDirectory)\TestResults'
