@@ -340,7 +340,7 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
         &systemTime,
         nullptr,
         pBuffer,
-        cch
+        allocLength+1
         );
     if (cch == 0)
     {
