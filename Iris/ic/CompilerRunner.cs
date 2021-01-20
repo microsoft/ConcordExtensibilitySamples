@@ -33,9 +33,9 @@ namespace ic
                 {
                     context.DoCompile();
                 }
-                catch (FileNotFoundException)
+                catch (FileNotFoundException e)
                 {
-                    Console.WriteLine("File not found");
+                    Console.WriteLine(e.Message);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -100,6 +100,7 @@ namespace ic
 
             if (sourceFile == null)
                 return false;
+
 
 #if NETCOREAPP
             flags |= CompilationFlags.NetCore;

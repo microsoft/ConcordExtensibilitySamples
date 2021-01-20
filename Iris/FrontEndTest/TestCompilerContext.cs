@@ -50,6 +50,11 @@ namespace FrontEndTest
 
         public static TestCompilerContext Create(string compiland, GlobalSymbolList globals, CompilationFlags flags)
         {
+#if NETCOREAPP
+            flags |= CompilationFlags.NetCore;
+            flags |= CompilationFlags.WriteDll;
+#endif
+
             byte[] buffer = Encoding.Default.GetBytes(compiland);
             MemoryStream input = new MemoryStream(buffer);
             StreamReader reader = new StreamReader(input);

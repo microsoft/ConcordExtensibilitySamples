@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace IrisCompiler.BackEnd
 {
@@ -69,25 +70,29 @@ namespace IrisCompiler.BackEnd
 
                 string mscorlibPath;
                 string frameworkDir;
-                string ilasmPath;
+                string ilasmPath = null;
 
-                // Find the path to ilasm.exe
-                if (_flags.HasFlag(CompilationFlags.NetCore))
-                {
-                    string thisDir = Path.GetDirectoryName(GetType().Assembly.Location);
-                    ilasmPath = Path.Combine(thisDir, "ilasm.exe");
+                bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-                    if (!File.Exists(ilasmPath))
-                        throw new FileNotFoundException("ilasm.exe cannot be found, make sure netcore ilasm.exe is present in the same directory as IrisCompiler.dll");
-
-                    if (!string.IsNullOrEmpty(debug)) // netcore ilasm requires explicitly specifying pdb format
-                        debug += " /PDBFMT=PORTABLE";
-                }
-                else
+                // If we are on Windows, and we aren't targetting .NET Core, look next to our CoreLib's ilasm.exe. If we are running on desktop framework this will work.
+                if (!_flags.HasFlag(CompilationFlags.NetCore) && isWindows)
                 {
                     mscorlibPath = typeof(object).Assembly.Location;
                     frameworkDir = Path.GetDirectoryName(mscorlibPath);
                     ilasmPath = Path.Combine(frameworkDir, "ilasm.exe");
+                }
+
+                if (ilasmPath == null || !File.Exists(ilasmPath))
+                {
+                    string thisDir = Path.GetDirectoryName(GetType().Assembly.Location);
+                    string ilasmFileName = isWindows ? "ilasm.exe" : "ilasm";
+                    ilasmPath = Path.Combine(thisDir, ilasmFileName);
+
+                    if (!File.Exists(ilasmPath))
+                        throw new FileNotFoundException("ilasm cannot be found, make sure netcore ilasm is present in the same directory as IrisCompiler.dll");
+
+                    if (!string.IsNullOrEmpty(debug)) // netcore ilasm requires explicitly specifying pdb format
+                        debug += " /PDBFMT=PORTABLE";
                 }
 
                 // Invoke ilasm to convert the textual CIL into a PE file.

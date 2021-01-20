@@ -12,7 +12,6 @@ namespace IrisCompiler
 
         /// <summary>
         /// Write a .dll file instead of a .exe
-        /// Currently only used by the debugger.
         /// </summary>
         WriteDll = 1,
 
