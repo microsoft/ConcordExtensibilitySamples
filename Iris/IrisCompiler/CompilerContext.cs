@@ -99,6 +99,7 @@ namespace IrisCompiler
         public void AddIntrinsics()
         {
             ImportedModule mscorlib = ReferenceMscorlib();
+            ImportedModule consoleLib = ReferenceConsoleLib();
             ImportedModule runtime = ReferenceExternal("IrisRuntime.dll");
 
             IrisType tVoid = IrisType.Void;
@@ -112,10 +113,10 @@ namespace IrisCompiler
             {
                 ImportGlobalField(fp, "$.emptystr", mscorlib, "System.String", "Empty");
                 ImportMethod(fp, "concat", mscorlib, "System.String", "Concat", false, tString, new IrisType[] { tString, tString });
-                ImportMethod(fp, "readln", mscorlib, "System.Console", "ReadLine", false, tString, noParams);
+                ImportMethod(fp, "readln", consoleLib, "System.Console", "ReadLine", false, tString, noParams);
                 ImportMethod(fp, "str", mscorlib, "System.Int32", "ToString", true, tString, noParams);
                 ImportMethod(fp, "strcmp", mscorlib, "System.String", "Compare", false, tInt, new IrisType[] { tString, tString });
-                ImportMethod(fp, "writeln", mscorlib, "System.Console", "WriteLine", false, tVoid, new IrisType[] { tString });
+                ImportMethod(fp, "writeln", consoleLib, "System.Console", "WriteLine", false, tVoid, new IrisType[] { tString });
             }
 
             if (runtime != null)
@@ -138,6 +139,21 @@ namespace IrisCompiler
             // For now, just use the same mscorlib as used by the compiler.
             string path = typeof(object).Assembly.Location;
             return Importer.ImportModule(path);
+        }
+
+        protected virtual ImportedModule ReferenceConsoleLib()
+        {
+            if (Flags.HasFlag(CompilationFlags.NetCore))
+            {
+                // load explicitly SystemConsole
+                string systemLibsDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
+                string path = Path.Combine(systemLibsDir, "System.Console.dll");
+                return Importer.ImportModule(path);
+            }
+            else
+            {
+                return ReferenceMscorlib();
+            }
         }
 
         protected virtual ImportedModule ReferenceExternal(string moduleName)

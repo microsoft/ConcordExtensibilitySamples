@@ -35,5 +35,11 @@ namespace IrisCompiler
         /// Instead of emitting a PE file, compile to CIL assembly.
         /// </summary>
         Assembly = 16,
+
+        /// <summary>
+        /// Target .NET Core instead of .NET Framework.
+        /// This flag is set based on the target framework of the compiler runner.
+        /// </summary>
+        NetCore = 32,
     }
 }

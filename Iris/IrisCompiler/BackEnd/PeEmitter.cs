@@ -67,10 +67,28 @@ namespace IrisCompiler.BackEnd
                 string debug = _flags.HasFlag(CompilationFlags.NoDebug) ? string.Empty : " /DEBUG";
                 string dll = _flags.HasFlag(CompilationFlags.WriteDll) ? " /DLL" : string.Empty;
 
+                string mscorlibPath;
+                string frameworkDir;
+                string ilasmPath;
+
                 // Find the path to ilasm.exe
-                string mscorlibPath = typeof(object).Assembly.Location;
-                string frameworkDir = Path.GetDirectoryName(mscorlibPath);
-                string ilasmPath = Path.Combine(frameworkDir, "ilasm.exe");
+                if (_flags.HasFlag(CompilationFlags.NetCore))
+                {
+                    string thisDir = Path.GetDirectoryName(GetType().Assembly.Location);
+                    ilasmPath = Path.Combine(thisDir, "ilasm.exe");
+
+                    if (!File.Exists(ilasmPath))
+                        throw new FileNotFoundException("ilasm.exe cannot be found, make sure netcore ilasm.exe is present in the same directory as IrisCompiler.dll");
+
+                    if (!string.IsNullOrEmpty(debug)) // netcore ilasm requires explicitly specifying pdb format
+                        debug += " /PDBFMT=PORTABLE";
+                }
+                else
+                {
+                    mscorlibPath = typeof(object).Assembly.Location;
+                    frameworkDir = Path.GetDirectoryName(mscorlibPath);
+                    ilasmPath = Path.Combine(frameworkDir, "ilasm.exe");
+                }
 
                 // Invoke ilasm to convert the textual CIL into a PE file.
                 Process process = new Process();

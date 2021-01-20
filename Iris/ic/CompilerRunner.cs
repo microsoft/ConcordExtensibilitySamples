@@ -101,6 +101,11 @@ namespace ic
             if (sourceFile == null)
                 return false;
 
+#if NETCOREAPP
+            flags |= CompilationFlags.NetCore;
+            flags |= CompilationFlags.WriteDll; // force running application through dotnet
+#endif
+
             return true;
         }
     }

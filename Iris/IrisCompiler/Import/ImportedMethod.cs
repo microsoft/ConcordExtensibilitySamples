@@ -62,6 +62,9 @@ namespace IrisCompiler.Import
             {
                 Parameter param = mdReader.GetParameter(handle);
                 string name = mdReader.GetString(param.Name);
+                // A Sequence value of 0 refers to the owner method’s return type; its parameters are then numbered from 1 onwards
+                if (param.SequenceNumber == 0)
+                    continue;
                 variables.Add(new Variable(paramTypes[param.SequenceNumber - 1], name));
             }
 

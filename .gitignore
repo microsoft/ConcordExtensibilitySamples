@@ -26,3 +26,4 @@ Microsoft.VisualStudio.Glass
 /Iris/Programs/*.dll
 /Iris/Programs/*.exe
 /Iris/Programs/*.pdb
+*launchSettings.json

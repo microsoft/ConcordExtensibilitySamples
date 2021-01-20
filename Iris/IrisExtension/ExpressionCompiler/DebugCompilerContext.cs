@@ -46,7 +46,11 @@ namespace IrisExtension.ExpressionCompiler
             List<DkmClrLocalVariableInfo> generatedLocals,
             string assignmentLValue,
             bool argumentsOnly)
+#if NETCOREAPP
+            : this(scope.Session.Importer, reader, CompilationFlags.NoDebug | CompilationFlags.WriteDll | CompilationFlags.NetCore)
+#else
             : this(scope.Session.Importer, reader, CompilationFlags.NoDebug | CompilationFlags.WriteDll)
+#endif
         {
             _ownedSession = ownedSession;
             _input = input;
@@ -181,6 +185,16 @@ namespace IrisExtension.ExpressionCompiler
         protected override ImportedModule ReferenceMscorlib()
         {
             return Scope.ImportMscorlib();
+        }
+
+        protected override ImportedModule ReferenceConsoleLib()
+        {
+#if NETCOREAPP
+            // NOTE: make sure System.Console gets loaded properly
+            return Scope.ImportModule("System.Console.dll");
+#else
+            return Scope.ImportMscorlib();
+#endif
         }
 
         protected override ImportedModule ReferenceExternal(string moduleName)
