@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 setlocal
 pushd %~dp0..
 set IrisRoot=%CD%
@@ -16,5 +16,11 @@ if not exist "%RuntimePath%" echo Cannot find IrisRuntime.dll. This should have 
 
 copy /y %RuntimePath%
 REM Now build the .iris files
+set BuildExitCode=0
+for %%f in (%~dp0*.iris) do call :CompileFile "%%f"
+exit /b %BuildExitCode%
 
-for %%f in (%~dp0*.iris) do %CmdCompilerPath% %%f
+:CompileFile
+if NOT "%BuildExitCode%"=="0" goto :EOF
+call %CmdCompilerPath% %1
+set BuildExitCode=%ERRORLEVEL%

@@ -9,7 +9,7 @@ namespace ic
 {
     public class CompilerRunner
     {
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
             Console.WriteLine("Iris managed compiler");
             string sourceFile;
@@ -22,7 +22,7 @@ namespace ic
                 Console.WriteLine("   /64       Make 64-bit exe");
                 Console.WriteLine("   /NODEBUG  Don't include debug information or generate .PDB file");
                 Console.WriteLine("   /ASM      Write out assembly instead of binary");
-                return;
+                return 0;
             }
 
             using (CmdLineCompilerContext context = CmdLineCompilerContext.Create(sourceFile, flags))
@@ -36,11 +36,15 @@ namespace ic
                 catch (FileNotFoundException e)
                 {
                     Console.WriteLine(e.Message);
+                    return -1;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     Console.WriteLine("Access to file denied");
+                    return -1;
                 }
+
+                return context.ErrorCount > 0 ? 1 : 0;
             }
         }
 
