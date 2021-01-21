@@ -33,8 +33,6 @@ namespace IrisExtension
         private ImportedMethod _currentMethod;
         private LocalVariable[] _cachedLocals;
 
-        public bool IsNetCore => this.InstructionAddress.Process.EngineSettings.ClrDebuggingServicesId == DkmClrDebuggingServicesId.CoreSystemClr;
-
         public InspectionScope(DkmClrInstructionAddress address, InspectionSession session)
         {
             InstructionAddress = address;
@@ -181,8 +179,6 @@ namespace IrisExtension
                 }
             }
         }
-
-
 
         private ImportedModule ImportModule(DkmClrModuleInstance debuggerModule)
         {
