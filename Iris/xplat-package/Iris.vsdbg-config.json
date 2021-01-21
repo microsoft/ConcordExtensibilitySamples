@@ -1,0 +1,15 @@
+{
+  "$schema": "https://aka.ms/vs/vsdbg-config-schema",
+  "languages": [
+    {
+      "languageId": "{3456107B-A1F4-4D47-8E18-7CF2C54559AE}",
+      "vendorId": "{5E176682-93DA-497A-A5F0-F1AEE5E18CCE}",
+      "name": "Iris"
+    },
+    {
+      "languageId": "{3456107B-A1F4-4D47-8E18-7CF2C54559AE}",
+      "vendorId": "{994b45c4-e6e9-11d2-903f-00c04fa302a1}",
+      "name": "Iris"
+    }
+  ]
+}

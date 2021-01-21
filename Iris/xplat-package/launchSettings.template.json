@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Windows": {
+      "commandName": "Executable",
+      "executablePath": "%USERPROFILE%\\.vscode\\extensions\\ms-dotnettools.csharp-1.2.3\\.debugger\\vsdbg-ui.exe",
+      "commandLineArgs": "--server --consoleLogging"
+    },
+    "WSL 2": {
+      "commandName": "WSL2",
+      "executablePath": "~/.vscode-server/extensions/ms-dotnettools.csharp-1.2.3/.debugger/vsdbg-ui",
+      "commandLineArgs": "--server --consoleLogging",
+      "distributionName": ""
+    }
+  }
+}
