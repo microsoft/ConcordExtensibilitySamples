@@ -38,6 +38,11 @@ namespace ic
                 outputFile = Path.ChangeExtension(sourcePath, "il");
                 emitter = new TextEmitter(outputFile);
             }
+            else if (flags.HasFlag(CompilationFlags.WriteDll))
+            {
+                outputFile = Path.ChangeExtension(sourcePath, "dll");
+                emitter = new PeEmitter(outputFile, flags);
+            }
             else
             {
                 outputFile = Path.ChangeExtension(sourcePath, "exe");

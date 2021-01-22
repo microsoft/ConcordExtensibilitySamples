@@ -3,20 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28516.95
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEndTest", "FrontEndTest\FrontEndTest.csproj", "{A53C9D11-E888-4F88-A3B6-0074C3382748}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vsix", "vsix\vsix.csproj", "{5AA27035-AE02-4B58-AE01-02E1D1ECB8D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{16272550-75E6-4B9D-91E3-653BD141C755} = {16272550-75E6-4B9D-91E3-653BD141C755}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrisRuntime", "IrisRuntime\IrisRuntime.csproj", "{4A0197FA-3059-4355-8E28-6EA5A6082507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEndTest", "FrontEndTest\FrontEndTest.csproj", "{A53C9D11-E888-4F88-A3B6-0074C3382748}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrisCompiler", "IrisCompiler\IrisCompiler.csproj", "{CE570B03-0D8E-466C-9674-E431D60D5E71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrisRuntime", "IrisRuntime\IrisRuntime.csproj", "{4A0197FA-3059-4355-8E28-6EA5A6082507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrisExtension", "IrisExtension\IrisExtension.csproj", "{16272550-75E6-4B9D-91E3-653BD141C755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrisCompiler", "IrisCompiler\IrisCompiler.csproj", "{CE570B03-0D8E-466C-9674-E431D60D5E71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ic", "ic\ic.csproj", "{A044C528-4D54-46E2-AE86-361A4E95CD37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IrisExtension", "IrisExtension\IrisExtension.csproj", "{16272550-75E6-4B9D-91E3-653BD141C755}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ic", "ic\ic.csproj", "{A044C528-4D54-46E2-AE86-361A4E95CD37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8BC0A762-C59F-431A-BB5E-FBE870D4660B}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xplat-package", "xplat-package\xplat-package.csproj", "{4EB27C62-7FBB-4046-960E-68DE74F48A95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +31,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5AA27035-AE02-4B58-AE01-02E1D1ECB8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA27035-AE02-4B58-AE01-02E1D1ECB8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA27035-AE02-4B58-AE01-02E1D1ECB8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA27035-AE02-4B58-AE01-02E1D1ECB8D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A53C9D11-E888-4F88-A3B6-0074C3382748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A53C9D11-E888-4F88-A3B6-0074C3382748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A53C9D11-E888-4F88-A3B6-0074C3382748}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,6 +55,10 @@ Global
 		{A044C528-4D54-46E2-AE86-361A4E95CD37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A044C528-4D54-46E2-AE86-361A4E95CD37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A044C528-4D54-46E2-AE86-361A4E95CD37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EB27C62-7FBB-4046-960E-68DE74F48A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB27C62-7FBB-4046-960E-68DE74F48A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB27C62-7FBB-4046-960E-68DE74F48A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB27C62-7FBB-4046-960E-68DE74F48A95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

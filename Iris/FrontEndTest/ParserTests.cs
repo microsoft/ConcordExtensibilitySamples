@@ -2,14 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using IrisCompiler;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace FrontEndTest
 {
-    [TestClass]
     public class ParserTests
     {
-        [TestMethod]
+        [Test]
         public void SimpleString()
         {
             string input =
@@ -22,7 +21,7 @@ namespace FrontEndTest
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleNumber()
         {
             string input =
@@ -35,7 +34,7 @@ namespace FrontEndTest
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleHexNumber()
         {
             string input =
@@ -48,7 +47,7 @@ namespace FrontEndTest
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleFalse()
         {
             string input =
@@ -61,7 +60,7 @@ namespace FrontEndTest
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleTrue()
         {
             string input =
@@ -74,7 +73,7 @@ namespace FrontEndTest
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleCall()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -90,7 +89,7 @@ namespace FrontEndTest
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleWithParams()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -112,7 +111,7 @@ call _Unknown
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression01()
         {
             string input =
@@ -127,7 +126,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression02()
         {
             string input =
@@ -142,7 +141,7 @@ sub
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression03()
         {
             string input =
@@ -157,7 +156,7 @@ mul
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression04()
         {
             string input =
@@ -172,7 +171,7 @@ div
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression05()
         {
             string input =
@@ -189,7 +188,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression06()
         {
             string input =
@@ -205,7 +204,7 @@ sub
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression07()
         {
             string input =
@@ -220,7 +219,7 @@ xor
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression08()
         {
             string input =
@@ -239,7 +238,7 @@ div
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression09()
         {
             string input =
@@ -254,7 +253,7 @@ ceq
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression10()
         {
             string input =
@@ -271,7 +270,7 @@ xor
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression11()
         {
             string input =
@@ -286,7 +285,7 @@ clt
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression12()
         {
             string input =
@@ -301,7 +300,7 @@ cgt
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression13()
         {
             string input =
@@ -318,7 +317,7 @@ xor
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression14()
         {
             string input =
@@ -335,7 +334,7 @@ xor
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression15()
         {
             string input =
@@ -350,7 +349,7 @@ and
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression16()
         {
             string input =
@@ -365,7 +364,7 @@ or
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression17()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -391,7 +390,7 @@ and
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression18()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -409,7 +408,7 @@ ldelem.i4
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression19()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -431,7 +430,7 @@ ceq
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression20()
         {
             string input =
@@ -444,7 +443,7 @@ ceq
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression21()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -462,7 +461,7 @@ call _Unknown
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression22()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -480,7 +479,7 @@ call _Unknown
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression23()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -499,7 +498,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression24()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -519,7 +518,7 @@ call _Unknown
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Expression25()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -537,7 +536,7 @@ call _Unknown
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment01()
         {
             string input =
@@ -553,7 +552,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment02()
         {
             string input =
@@ -569,7 +568,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment03()
         {
             string input =
@@ -584,7 +583,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment04()
         {
             string input =
@@ -605,7 +604,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment05()
         {
             string input =
@@ -618,7 +617,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment06()
         {
             string input =
@@ -636,7 +635,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Comment07()
         {
             string input =
@@ -652,7 +651,7 @@ add
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void If01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -674,7 +673,7 @@ L0:
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void If02()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -706,7 +705,7 @@ L1:
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void If03()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -753,7 +752,7 @@ L1:
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void While01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -776,7 +775,7 @@ L1:
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void For01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -806,7 +805,7 @@ L1:
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Repeat01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -835,7 +834,7 @@ bne.un L0
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Assign01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -856,7 +855,7 @@ stelem.i4
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Assign02()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -874,7 +873,7 @@ stind.i4
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void CallFunction01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -891,7 +890,7 @@ pop
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void CallFunction02()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -908,7 +907,7 @@ pop
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void CallProcedure01()
         {
             GlobalSymbolList globals = new GlobalSymbolList();
@@ -924,7 +923,7 @@ pop
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void CallProcedure02()
         {
             GlobalSymbolList globals = new GlobalSymbolList();

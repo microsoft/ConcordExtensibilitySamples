@@ -99,7 +99,6 @@ namespace IrisCompiler
         public void AddIntrinsics()
         {
             ImportedModule mscorlib = ReferenceMscorlib();
-            ImportedModule runtime = ReferenceExternal("IrisRuntime.dll");
 
             IrisType tVoid = IrisType.Void;
             IrisType tString = IrisType.String;
@@ -112,12 +111,18 @@ namespace IrisCompiler
             {
                 ImportGlobalField(fp, "$.emptystr", mscorlib, "System.String", "Empty");
                 ImportMethod(fp, "concat", mscorlib, "System.String", "Concat", false, tString, new IrisType[] { tString, tString });
-                ImportMethod(fp, "readln", mscorlib, "System.Console", "ReadLine", false, tString, noParams);
                 ImportMethod(fp, "str", mscorlib, "System.Int32", "ToString", true, tString, noParams);
                 ImportMethod(fp, "strcmp", mscorlib, "System.String", "Compare", false, tInt, new IrisType[] { tString, tString });
-                ImportMethod(fp, "writeln", mscorlib, "System.Console", "WriteLine", false, tVoid, new IrisType[] { tString });
+
+                ImportedModule consoleLib = ReferenceConsoleLib();
+                if (consoleLib != null)
+                {
+                    ImportMethod(fp, "readln", consoleLib, "System.Console", "ReadLine", false, tString, noParams);
+                    ImportMethod(fp, "writeln", consoleLib, "System.Console", "WriteLine", false, tVoid, new IrisType[] { tString });
+                }
             }
 
+            ImportedModule runtime = ReferenceExternal("IrisRuntime.dll");
             if (runtime != null)
             {
                 ImportMethod(fp, "$.initstrarray", runtime, "IrisRuntime.CompilerServices", "InitStrArray", false, tVoid, new IrisType[] { IrisType.String.MakeArrayType() });
@@ -135,8 +140,27 @@ namespace IrisCompiler
 
         protected virtual ImportedModule ReferenceMscorlib()
         {
-            // For now, just use the same mscorlib as used by the compiler.
-            string path = typeof(object).Assembly.Location;
+            return ImportModuleForType(typeof(System.Object));
+        }
+
+        protected virtual ImportedModule ReferenceConsoleLib()
+        {
+            return ImportModuleForType(typeof(System.Console));
+        }
+
+        private ImportedModule ImportModuleForType(Type type)
+        {
+            // *****************************************************************
+            // * TODO: Replace if using in production code!
+            // *****************************************************************
+            // This sample just uses the same assemblies as the compiler is running against.
+            // This is not ideal for .NET Core -- normally in .NET Core compilation is done
+            // against reference assemblies. For example, the assemblies in
+            // C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\5.0.0\ref\net5.0
+            // Instead this will compile against implementation assemblies, which could cause
+            // problems in the future.
+
+            string path = type.Assembly.Location;
             return Importer.ImportModule(path);
         }
 

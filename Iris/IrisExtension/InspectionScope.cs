@@ -29,6 +29,7 @@ namespace IrisExtension
 
         private Dictionary<string, ImportedModule> _modules = new Dictionary<string, ImportedModule>(StringComparer.OrdinalIgnoreCase);
         private ImportedModule _mscorlib;
+        private ImportedModule _consolelib;
         private ImportedMethod _currentMethod;
         private LocalVariable[] _cachedLocals;
 
@@ -93,6 +94,23 @@ namespace IrisExtension
 
             return null;
         }
+        internal ImportedModule ReferenceConsoleLib()
+        {
+            if (_consolelib != null)
+                return _consolelib;
+
+            var debuggingServicesId = this.InstructionAddress.Process.EngineSettings.ClrDebuggingServicesId;
+            if (debuggingServicesId != DkmClrDebuggingServicesId.DesktopClrV2 && debuggingServicesId != DkmClrDebuggingServicesId.DesktopClrV4)
+            {
+                _consolelib = ImportModule("System.Console.dll");
+            }
+            else
+            {
+                _consolelib = ImportMscorlib();
+            }
+
+            return _consolelib;
+        }
 
         public ImportedModule ImportModule(string name)
         {
@@ -107,9 +125,7 @@ namespace IrisExtension
                 {
                     if (!moduleInstance.IsUnloaded)
                     {
-                        string path = moduleInstance.FullName;
-                        string fileName = Path.GetFileName(path);
-                        if (string.Equals(name, fileName, StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(moduleInstance.Name, name, StringComparison.OrdinalIgnoreCase))
                         {
                             result = ImportModule(moduleInstance);
                             if (result != null)

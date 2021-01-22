@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if ! cd "$(dirname "$0")"; then
+    echo "ERROR: Failed to change to the directory of this script"
+    exit 1
+fi
+ScriptDir="$(pwd)"
+
+if [ ! -d "$HOME/.dotnet/vsdbg-extensions" ]
+then
+    if ! mkdir "$HOME/.dotnet/vsdbg-extensions"; then
+        echo "ERROR: Failed to create vsdbg-extensions directory"
+        exit 1
+    fi
+fi
+
+if ! echo "$ScriptDir">"$HOME/.dotnet/vsdbg-extensions/Sample.Iris.link"; then
+    echo "ERROR: Failed create link file"
+    exit 1
+fi
+
+echo Link file successfully created
+exit 0

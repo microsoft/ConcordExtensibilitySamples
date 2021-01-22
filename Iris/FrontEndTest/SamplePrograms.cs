@@ -2,14 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using IrisCompiler;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+using static System.FormattableString;
 
 namespace FrontEndTest
 {
-    [TestClass]
     public class SamplePrograms
     {
-        [TestMethod]
+        [Test]
         public void Program01()
         {
             string input =
@@ -20,9 +20,9 @@ begin
 end.
 ";
             string output = TestHelpers.TestCompileProgram(input);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly HelloWorld { }
 .class public HelloWorld
@@ -31,15 +31,15 @@ end.
    {
       .entrypoint
       ldstr ""Hello World""
-      call void [mscorlib]System.Console::WriteLine(string)
+      call void [System.Console]System.Console::WriteLine(string)
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
         }
-        [TestMethod]
+        [Test]
         public void Program02()
         {
             string input =
@@ -50,9 +50,9 @@ begin
 end.
 ";
             string output = TestHelpers.TestCompileProgram(input);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly HelloWorld { }
 .class public HelloWorld
@@ -63,18 +63,18 @@ end.
       ldstr ""Hello""
       ldstr "" ""
       ldstr ""World""
-      call string [mscorlib]System.String::Concat(string,string)
-      call string [mscorlib]System.String::Concat(string,string)
-      call void [mscorlib]System.Console::WriteLine(string)
+      call string [CoreLib]System.String::Concat(string,string)
+      call string [CoreLib]System.String::Concat(string,string)
+      call void [System.Console]System.Console::WriteLine(string)
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Program03()
         {
             string input =
@@ -111,9 +111,9 @@ begin
 end.
 ";
             string output = TestHelpers.TestCompileProgram(input, true);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly Fibbonacci { }
 .class public Fibbonacci
@@ -170,8 +170,8 @@ L0:
       stloc.s 0
       .line 22,22 : 4,24 ''
       ldloca.s 0
-      call instance string [mscorlib]System.Int32::ToString()
-      call void [mscorlib]System.Console::WriteLine(string)
+      call instance string [CoreLib]System.Int32::ToString()
+      call void [System.Console]System.Console::WriteLine(string)
       .line 23,23 : 1,4 ''
       nop
       ret
@@ -202,12 +202,12 @@ L0:
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Program04()
         {
             string input =
@@ -263,9 +263,9 @@ begin
 end.
 ";
             string output = TestHelpers.TestCompileProgram(input, true);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly Shuffle { }
 .class public Shuffle
@@ -391,12 +391,12 @@ L4:
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Program05()
         {
             string input =
@@ -426,9 +426,9 @@ begin
 end.
 ";
             string output = TestHelpers.TestCompileProgram(input, true);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly LineInfoTest { }
 .class public LineInfoTest
@@ -520,12 +520,12 @@ L6:
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Program06()
         {
             string input =
@@ -548,9 +548,9 @@ begin
 end.
 ";
             string output = TestHelpers.TestCompileProgram(input);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly ByRefTest { }
 .class public ByRefTest
@@ -569,7 +569,7 @@ L0:
       bgt L1
       ldarg.1
       ldarg.0
-      call instance string [mscorlib]System.Int32::ToString()
+      call instance string [CoreLib]System.Int32::ToString()
       stind.ref
       ldarg.0
       dup
@@ -587,7 +587,7 @@ L1:
    .method public hidebysig static void $.main() cil managed
    {
       .entrypoint
-      ldsfld string [mscorlib]System.String::Empty
+      ldsfld string [CoreLib]System.String::Empty
       stsfld string ByRefTest::s
       ldsflda int32 ByRefTest::i
       ldsflda string ByRefTest::s
@@ -595,12 +595,12 @@ L1:
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
         }
 
-        [TestMethod]
+        [Test]
         public void Program07()
         {
             // Test variable initialization and case-insensitivity.
@@ -626,9 +626,9 @@ Begin
 End.
 ";
             string output = TestHelpers.TestCompileProgram(input);
-            string expected =
+            string expected = FixupBaseline(
 @"
-.assembly extern mscorlib { }
+.assembly SYSTEM-ASSEMBLIES-HERE { }
 .assembly extern IrisRuntime { }
 .assembly VarInitTest { }
 .class public VarInitTest
@@ -641,7 +641,7 @@ End.
       stloc.s 0
       ldloc.0
       call void [IrisRuntime]IrisRuntime.CompilerServices::InitStrArray(string[])
-      ldsfld string [mscorlib]System.String::Empty
+      ldsfld string [CoreLib]System.String::Empty
       stloc.s 1
       ldc.i4.0
       stloc.s 2
@@ -652,13 +652,13 @@ L0:
       ldloc.0
       ldloc.2
       ldloca.s 2
-      call instance string [mscorlib]System.Int32::ToString()
+      call instance string [CoreLib]System.Int32::ToString()
       stelem.ref
       ldloc.1
       ldloc.0
       ldloc.2
       ldelem string
-      call string [mscorlib]System.String::Concat(string,string)
+      call string [CoreLib]System.String::Concat(string,string)
       stloc.s 1
       ldloc.2
       ldc.i4.1
@@ -675,9 +675,23 @@ L1:
       ret
    }
 }
-";
+");
 
             Assert.AreEqual(expected, output);
+        }
+
+        static string FixupBaseline(string expected)
+        {
+#if NETCOREAPP
+            expected = expected.Replace(".assembly SYSTEM-ASSEMBLIES-HERE { }", @".assembly extern System.Private.CoreLib { }
+.assembly extern System.Console { }");
+            expected = expected.Replace("[CoreLib]", "[System.Private.CoreLib]");
+#else
+            expected = expected.Replace(".assembly SYSTEM-ASSEMBLIES-HERE { }", @".assembly extern mscorlib { }");
+            expected = expected.Replace("[System.Console]", "[mscorlib]");
+            expected = expected.Replace("[CoreLib]", "[mscorlib]");
+#endif
+            return expected;
         }
     }
 }

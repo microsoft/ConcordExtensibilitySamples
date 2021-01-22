@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>xplat_package</RootNamespace>
+  </PropertyGroup>
+
+  <Target Name="CopyLaunchSettingsJson" Condition="!Exists('Properties/launchSettings.json')" BeforeTargets="PrepareForRun">
+    <MakeDir Directories="Properties" />
+    <Copy SourceFiles="launchSettings.template.json" DestinationFiles="Properties/launchSettings.json" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IrisExtension\IrisExtension.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="runtime.win-x64.Microsoft.NETCore.ILAsm" Version="5.0.0" GeneratePathProperty="true">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="runtime.linux-x64.Microsoft.NETCore.ILAsm" Version="5.0.0" GeneratePathProperty="true">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <FilesToDeploy Include="Iris.vsdbg-config.json" />
+    <FilesToDeploy Include="..\IrisExtension\bin\$(Configuration)\netstandard2.0\IrisExtension.dll" />
+    <FilesToDeploy Include="..\IrisExtension\bin\$(Configuration)\netstandard2.0\IrisExtension.pdb" />
+    <FilesToDeploy Include="..\IrisExtension\bin\$(Configuration)\netstandard2.0\IrisExtension.vsdconfig" />
+    <FilesToDeploy Include="..\IrisCompiler\bin\$(Configuration)\netstandard2.0\IrisCompiler.dll" />
+    <FilesToDeploy Include="..\IrisCompiler\bin\$(Configuration)\netstandard2.0\IrisCompiler.pdb" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <XPlatPackage Include="linux-x64">
+      <ILAsmPackage>$(Pkgruntime_linux-x64_Microsoft_NETCore_ILAsm)</ILAsmPackage>
+      <ScriptExtension>.sh</ScriptExtension>
+      <ExeExtension></ExeExtension>
+    </XPlatPackage>
+    <XPlatPackage Include="win-x64">
+      <ILAsmPackage>$(Pkgruntime_win-x64_Microsoft_NETCore_ILAsm)</ILAsmPackage>
+      <ScriptExtension>.cmd</ScriptExtension>
+      <ExeExtension>.exe</ExeExtension>
+    </XPlatPackage>
+  </ItemGroup>
+
+  <Target Name="MakeXPlatPackages" AfterTargets="Build">
+    <MakeDir Directories="@(XPlatPackage->'bin\$(Configuration)\%(Identity)')" />
+    <Copy SourceFiles="@(XPlatPackage->'%(ILAsmPackage)\runtimes\%(Identity)\native\ilasm%(ExeExtension)')"
+          DestinationFiles="@(XPlatPackage->'bin\$(Configuration)\%(Identity)\ilasm%(ExeExtension)')"/>
+    <Copy SourceFiles="@(XPlatPackage->'CreateLinkFile%(ScriptExtension).txt')"
+          DestinationFiles="@(XPlatPackage->'bin\$(Configuration)\%(Identity)\CreateLinkFile%(ScriptExtension)')"/>
+    <Copy SourceFiles="@(FilesToDeploy)"
+          DestinationFolder="bin\$(Configuration)\linux-x64"/>
+    <Copy SourceFiles="@(FilesToDeploy)"
+          DestinationFolder="bin\$(Configuration)\win-x64"/>
+  </Target>
+</Project>

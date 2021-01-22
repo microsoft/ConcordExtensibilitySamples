@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace IrisCompiler.BackEnd
 {
@@ -63,30 +64,66 @@ namespace IrisCompiler.BackEnd
                 _textEmitter.Dispose();
                 _textEmitter = null;
 
-                string platform = _flags.HasFlag(CompilationFlags.Platform32) ? " /32BITPREFERRED" : " /X64";
-                string debug = _flags.HasFlag(CompilationFlags.NoDebug) ? string.Empty : " /DEBUG";
-                string dll = _flags.HasFlag(CompilationFlags.WriteDll) ? " /DLL" : string.Empty;
+                string platform = _flags.HasFlag(CompilationFlags.Platform32) ? " -32BITPREFERRED" : " -X64";
+                string debug = _flags.HasFlag(CompilationFlags.NoDebug) ? string.Empty : " -DEBUG";
+                string dll = _flags.HasFlag(CompilationFlags.WriteDll) ? " -DLL" : string.Empty;
 
-                // Find the path to ilasm.exe
-                string mscorlibPath = typeof(object).Assembly.Location;
-                string frameworkDir = Path.GetDirectoryName(mscorlibPath);
-                string ilasmPath = Path.Combine(frameworkDir, "ilasm.exe");
+                string mscorlibPath;
+                string frameworkDir;
+                string ilasmPath = null;
+
+                bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+                // If we are on Windows, and we aren't targetting .NET Core, look next to our CoreLib's ilasm.exe. If we are running on desktop framework this will work.
+                if (!_flags.HasFlag(CompilationFlags.NetCore) && isWindows)
+                {
+                    mscorlibPath = typeof(object).Assembly.Location;
+                    frameworkDir = Path.GetDirectoryName(mscorlibPath);
+                    ilasmPath = Path.Combine(frameworkDir, "ilasm.exe");
+                }
+
+                if (ilasmPath == null || !File.Exists(ilasmPath))
+                {
+                    string thisDir = Path.GetDirectoryName(GetType().Assembly.Location);
+                    string ilasmFileName = isWindows ? "ilasm.exe" : "ilasm";
+                    ilasmPath = Path.Combine(thisDir, ilasmFileName);
+
+                    if (!File.Exists(ilasmPath))
+                        throw new FileNotFoundException("ilasm cannot be found, make sure netcore ilasm is present in the same directory as IrisCompiler.dll");
+
+                    if (!string.IsNullOrEmpty(debug)) // netcore ilasm requires explicitly specifying pdb format
+                        debug += " -PDBFMT=PORTABLE";
+                }
 
                 // Invoke ilasm to convert the textual CIL into a PE file.
-                Process process = new Process();
-                process.StartInfo.FileName = ilasmPath;
-                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(_outputFile);
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = string.Format(
-                    @"{0}{1}{2}{3} /OUTPUT={4}",
-                    _ilFile,
-                    platform,
-                    debug,
-                    dll,
-                    _outputFile);
+                using (Process process = new Process())
+                {
+                    process.StartInfo.FileName = ilasmPath;
+                    process.StartInfo.WorkingDirectory = Path.GetDirectoryName(_outputFile);
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.StartInfo.Arguments = string.Format(
+                        @"{0} -QUIET{1}{2}{3} -OUTPUT={4}",
+                        _ilFile,
+                        platform,
+                        debug,
+                        dll,
+                        _outputFile);
+                    process.StartInfo.UseShellExecute = false;
 
-                process.Start();
-                process.WaitForExit();
+                    process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
+                    {
+                        // Ignore output. This ensures that the output stream doesn't fill up.
+                    };
+                    process.Start();
+                    process.WaitForExit();
+
+                    if (process.ExitCode != 0)
+                    {
+                        throw new InvalidOperationException("ilasm failed.\nError text: " + process.StandardError.ReadToEnd());
+                    }
+                }
             }
         }
 

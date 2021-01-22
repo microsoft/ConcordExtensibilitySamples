@@ -9,7 +9,7 @@ namespace ic
 {
     public class CompilerRunner
     {
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
             Console.WriteLine("Iris managed compiler");
             string sourceFile;
@@ -22,7 +22,7 @@ namespace ic
                 Console.WriteLine("   /64       Make 64-bit exe");
                 Console.WriteLine("   /NODEBUG  Don't include debug information or generate .PDB file");
                 Console.WriteLine("   /ASM      Write out assembly instead of binary");
-                return;
+                return 0;
             }
 
             using (CmdLineCompilerContext context = CmdLineCompilerContext.Create(sourceFile, flags))
@@ -33,14 +33,18 @@ namespace ic
                 {
                     context.DoCompile();
                 }
-                catch (FileNotFoundException)
+                catch (FileNotFoundException e)
                 {
-                    Console.WriteLine("File not found");
+                    Console.WriteLine(e.Message);
+                    return -1;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     Console.WriteLine("Access to file denied");
+                    return -1;
                 }
+
+                return context.ErrorCount > 0 ? 1 : 0;
             }
         }
 
@@ -100,6 +104,15 @@ namespace ic
 
             if (sourceFile == null)
                 return false;
+
+// NOTE: Currently this project is always compiled for .NET Core, so this #if will always be true. But leaving
+// in case one wants to modify the project to run on desktop. Note that currently this compiler uses the assemblies
+// that it is running on as reference assemblies. So to produce .NET Framework assemblies it needs to be running
+// on the .NET Framework.
+#if NETCOREAPP
+            flags |= CompilationFlags.NetCore;
+            flags |= CompilationFlags.WriteDll; // force running application through dotnet
+#endif
 
             return true;
         }

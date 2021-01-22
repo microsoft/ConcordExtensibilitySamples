@@ -2,12 +2,19 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using IrisCompiler;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace FrontEndTest
 {
     internal static class TestHelpers
     {
+        public static void Setup()
+        {
+            // We need to have a code reference to a method in IrisRuntime.dll to ensure that the
+            // CI system deploys it.
+            IrisRuntime.CompilerServices.Rand();
+        }
+
         public static string TestExpressionParser(string compiland, GlobalSymbolList symbols = null)
         {
             using (TestCompilerContext context = TestCompilerContext.Create(compiland, symbols, CompilationFlags.NoDebug))

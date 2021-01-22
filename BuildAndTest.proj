@@ -74,7 +74,7 @@
 
   <ItemGroup>
     <Solution Include="$(IrisDir)Iris.sln;$(HelloWorldDir)cs\HelloWorld.sln">
-      <AdditionalProperties>Configuration=$(Configuration)</AdditionalProperties>
+      <AdditionalProperties>Configuration=$(Configuration);Platform=Any CPU</AdditionalProperties>
     </Solution>
     <Solution Include="$(HelloWorldDir)cpp\HelloWorld.sln">
       <AdditionalProperties>Configuration=$(Configuration);Platform=Win32</AdditionalProperties>

@@ -183,6 +183,11 @@ namespace IrisExtension.ExpressionCompiler
             return Scope.ImportMscorlib();
         }
 
+        protected override ImportedModule ReferenceConsoleLib()
+        {
+            return Scope.ReferenceConsoleLib();
+        }
+
         protected override ImportedModule ReferenceExternal(string moduleName)
         {
             return Scope.ImportModule(moduleName);

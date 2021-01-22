@@ -1,5 +1,6 @@
 
 ; This key registers the language with the debugger.  The Language string is used in the debugger UI to refer to the language (Call Stack window, for example)
+; NOTE: When updating this, be sure to also update xplat-package\Iris.vsdbg-config.json
 [$RootKey$\AD7Metrics\ExpressionEvaluator\{3456107B-A1F4-4D47-8E18-7CF2C54559AE}\{5E176682-93DA-497A-A5F0-F1AEE5E18CCE}]
 "Name"="Iris"
 "Language"="Iris"
@@ -8,3 +9,8 @@
 [$RootKey$\AD7Metrics\ExpressionEvaluator\{3456107B-A1F4-4D47-8E18-7CF2C54559AE}\{5E176682-93DA-497A-A5F0-F1AEE5E18CCE}\Engine]
 "0"="{449EC4CC-30D2-4032-9256-EE18EB41B62B}"
 "1"="{92EF0900-2251-11D2-B72E-0000F87572EF}"
+
+; Portable PDBs don't currently support vendor GUIDs. So also register the language using the Microsoft vendor GUID
+[$RootKey$\AD7Metrics\ExpressionEvaluator\{3456107B-A1F4-4D47-8E18-7CF2C54559AE}\{994b45c4-e6e9-11d2-903f-00c04fa302a1}]
+"Name"="Iris"
+"Language"="Iris"

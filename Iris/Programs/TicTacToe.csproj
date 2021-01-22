@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(ProgramW6432)'!=''">$(ProgramW6432)\dotnet\dotnet.exe</StartProgram>
+    <StartProgram Condition="'$(ProgramW6432)'==''">$(ProgramFiles)\dotnet\dotnet.exe</StartProgram>
+    <StartArguments>$(MSBuildThisFileDirectory)TicTacToe.dll</StartArguments>
+  </PropertyGroup>
+  
+  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+
+  <Target Name="Build">
+    <Message Text="Invoking build.cmd." />
+    <Exec Command="build.cmd" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="TicTacToe.dll;TicTacToe.pdb" />
+  </Target>
+  <Target Name="Rebuild">
+    <CallTarget Targets="Build" />
+  </Target>
+</Project>
