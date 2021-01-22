@@ -52,7 +52,6 @@ namespace FrontEndTest
         {
 #if NETCOREAPP
             flags |= CompilationFlags.NetCore;
-            flags |= CompilationFlags.WriteDll;
 #endif
 
             byte[] buffer = Encoding.Default.GetBytes(compiland);

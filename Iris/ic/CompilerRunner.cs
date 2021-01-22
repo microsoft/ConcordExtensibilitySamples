@@ -105,7 +105,10 @@ namespace ic
             if (sourceFile == null)
                 return false;
 
-
+// NOTE: Currently this project is always compiled for .NET Core, so this #if will always be true. But leaving
+// in case one wants to modify the project to run on desktop. Note that currently this compiler uses the assemblies
+// that it is running on as reference assemblies. So to produce .NET Framework assemblies it needs to be running
+// on the .NET Framework.
 #if NETCOREAPP
             flags |= CompilationFlags.NetCore;
             flags |= CompilationFlags.WriteDll; // force running application through dotnet
