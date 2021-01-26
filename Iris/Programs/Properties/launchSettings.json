@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "TicTacToe": {
+      "commandName": "Project"
+    },
+    "TicTacToe (WSL 2) - Game1": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": "",
+      "executablePath": "{ProjectDir}/TicTacToe.dll",
+      "workingDirectory": "{ProjectDir}",
+      "commandLineArgs": "< TicTacToe.Game1-stdin.txt"
+    }
+  }
+}

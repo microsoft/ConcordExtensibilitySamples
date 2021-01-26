@@ -14,3 +14,47 @@
 [$RootKey$\AD7Metrics\ExpressionEvaluator\{3456107B-A1F4-4D47-8E18-7CF2C54559AE}\{994b45c4-e6e9-11d2-903f-00c04fa302a1}]
 "Name"="Iris"
 "Language"="Iris"
+
+; ************************************************************
+; Begin_region: Register file extension mapping for .NET Cross-Platform scenarios
+; For more information: https://github.com/microsoft/ConcordExtensibilitySamples/wiki/Support-for-cross-platform-.NET-scenarios
+; This region can be removed for EEs that don't support .NET Cross-Platform scenarios.
+
+; Register Iris in .NET cross-plat vsdbg launch (WSL, offroad, etc)
+[$RootKey$\AD7Metrics\Engine\{541B8A8A-6081-4506-9F0A-1CE771DEBC04}\LanguageMappings\Iris]
+"LanguageId"="{3456107B-A1F4-4D47-8E18-7CF2C54559AE}"
+"Extensions"=".iris"
+
+; Register Iris in .NET cross-plat vsdbg attach (SSH, Docker, etc)
+[$RootKey$\AD7Metrics\Engine\{EF9CD3BB-2C0E-41AD-B54C-63006BC09D19}\LanguageMappings\Iris]
+"LanguageId"="{3456107B-A1F4-4D47-8E18-7CF2C54559AE}"
+"Extensions"=".iris"
+
+; Register for docker-compose support (Right click -> Add Container Orchestrator Support -> Docker Compose)
+[$RootKey$\AD7Metrics\Engine\{E6A9BFF2-CA5D-44B2-8BE9-4065C380B913}\LanguageMappings\Iris]
+"LanguageId"="{3456107B-A1F4-4D47-8E18-7CF2C54559AE}"
+"Extensions"=".iris"
+
+; Register for Docker file support (Right click -> Add Docker support)
+[$RootKey$\AD7Metrics\Engine\{97D6C1BA-71FD-4267-8F38-A25257581B77}\LanguageMappings\Iris]
+"LanguageId"="{3456107B-A1F4-4D47-8E18-7CF2C54559AE}"
+"Extensions"=".iris"
+
+; The rest of the lines of this region are only needed if you are targeting 16.8 or earlier.
+; The original way the C# language was registered didn't support registering more than
+; one language. So, since we are registering a language, we need to add in the C# registration.
+; These keys will be registered out-of-the box in 16.9.
+[$RootKey$\AD7Metrics\Engine\{E6A9BFF2-CA5D-44B2-8BE9-4065C380B913}\LanguageMappings\C#]
+"LanguageId"="{3F5162F8-07C6-11D3-9053-00C04FA302A1}"
+"Extensions"="*"
+[$RootKey$\AD7Metrics\Engine\{97D6C1BA-71FD-4267-8F38-A25257581B77}\LanguageMappings\C#]
+"LanguageId"="{3F5162F8-07C6-11D3-9053-00C04FA302A1}"
+"Extensions"="*"
+[$RootKey$\AD7Metrics\Engine\{541B8A8A-6081-4506-9F0A-1CE771DEBC04}\LanguageMappings\C#]
+"LanguageId"="{3F5162F8-07C6-11D3-9053-00C04FA302A1}"
+"Extensions"="*"
+[$RootKey$\AD7Metrics\Engine\{EF9CD3BB-2C0E-41AD-B54C-63006BC09D19}\LanguageMappings\C#]
+"LanguageId"="{3F5162F8-07C6-11D3-9053-00C04FA302A1}"
+"Extensions"="*"
+
+; End_region: Register file extension mapping for .NET Cross-Platform scenarios
