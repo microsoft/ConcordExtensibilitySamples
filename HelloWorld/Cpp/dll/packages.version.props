@@ -2,6 +2,6 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <!-- NOTE: This needs to stay in sync with packages.config -->
-    <ConcordPackageVersion>16.0.2032702</ConcordPackageVersion>
+    <ConcordPackageVersion>17.0.1051901-preview</ConcordPackageVersion>
   </PropertyGroup>
 </Project>

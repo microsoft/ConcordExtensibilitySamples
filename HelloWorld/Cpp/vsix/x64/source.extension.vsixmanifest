@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="vsix..96d2707a-406e-423d-bbea-eb81c05d2b89" Version="1.0" Language="en-US" Publisher="Sample" />
+    <DisplayName>C++ HelloWorld Debugger Sample</DisplayName>
+    <Description xml:space="preserve">C++ HelloWorld Debugger Sample</Description>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Debugger" Version="[17.0,)" DisplayName="Visual Studio Debugger" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="DebuggerEngineExtension" Path="HelloWorld.vsdconfig" />
+  </Assets>
+</PackageManifest>
