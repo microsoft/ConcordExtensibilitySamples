@@ -12,10 +12,7 @@ because we need to include both the x86 and x64 implementation of CppCustomVisua
     <DllSrcDir>..\dll\</DllSrcDir>
   </PropertyGroup>
   <ItemGroup>
-    <VSIXSourceItem Include="$(DllBinDir)x86\CppCustomVisualizer.vsdconfig" />
-    <VSIXSourceItem Include="$(DllBinDir)x86\CppCustomVisualizer.dll">
-      <VSIXSubPath>x86</VSIXSubPath>
-    </VSIXSourceItem>
+    <VSIXSourceItem Include="$(DllBinDir)x64\CppCustomVisualizer.vsdconfig" />
     <VSIXSourceItem Include="$(DllBinDir)x64\CppCustomVisualizer.dll">
       <VSIXSubPath>x64</VSIXSubPath>
     </VSIXSourceItem>

@@ -64,10 +64,10 @@
     <ClInclude Include="$(IntDir)HelloWorld.Contract.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\inc\VSDebugEng.h">
+    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\VSDebugEng.h">
       <Filter>Concord API %28for reference%29</Filter>
     </ClInclude>
-    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\inc\vsdebugeng.templates.h">
+    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\vsdebugeng.templates.h">
       <Filter>Concord API %28for reference%29</Filter>
     </ClInclude>
   </ItemGroup>
