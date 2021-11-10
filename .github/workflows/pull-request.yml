@@ -1,0 +1,28 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  windows_build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Build.cmd
+      run: ${{ github.workspace }}\build.cmd /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+
