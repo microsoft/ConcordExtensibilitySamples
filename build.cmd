@@ -11,7 +11,7 @@ if NOT "%VSINSTALLDIR%"=="" goto InDevPrompt
 set x86ProgramFiles=%ProgramFiles(x86)%
 if "%x86ProgramFiles%"=="" set x86ProgramFiles=%ProgramFiles%
 set VSWherePath=%x86ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe
-if NOT exist "%VSWherePath%" echo ERROR: Could not find vswhere.exe (%VSWherePath%). Ensure that Visual Studio 2022 is installed. & exit /b -1 
+if NOT exist "%VSWherePath%" echo ERROR: Could not find vswhere.exe (%VSWherePath%). Ensure that Visual Studio 2022 or newer is installed. & exit /b -1 
 
 for /f "usebackq tokens=1 delims=" %%a in (`"%VSWherePath%" -version [17.0, -prerelease -requires Microsoft.VisualStudio.Workload.NativeDesktop;Microsoft.VisualStudio.Workload.VisualStudioExtension;Microsoft.VisualStudio.Workload.ManagedDesktop -property installationPath`) do call :ProcessIDE "%%a"
 if NOT "%VSINSTALLDIR%"=="" goto InDevPrompt

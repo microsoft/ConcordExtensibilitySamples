@@ -11,7 +11,7 @@
     </InstallationTarget>
   </Installation>
   <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Debugger" Version="[15.0,)" DisplayName="Visual Studio Debugger" />
+    <Prerequisite Id="Microsoft.VisualStudio.Debugger" Version="[17.0,)" DisplayName="Visual Studio Debugger" />
   </Prerequisites>
   <Assets>
     <Asset Type="DebuggerEngineExtension" Path="CppCustomVisualizer.vsdconfig" d:Source="File" />
