@@ -11,12 +11,12 @@ if NOT "%VSINSTALLDIR%"=="" goto InDevPrompt
 set x86ProgramFiles=%ProgramFiles(x86)%
 if "%x86ProgramFiles%"=="" set x86ProgramFiles=%ProgramFiles%
 set VSWherePath=%x86ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe
-if NOT exist "%VSWherePath%" echo ERROR: Could not find vswhere.exe (%VSWherePath%). Ensure that Visual Studio 2017 version 15.5 or newer is installed. & exit /b -1 
+if NOT exist "%VSWherePath%" echo ERROR: Could not find vswhere.exe (%VSWherePath%). Ensure that Visual Studio 2022 or newer is installed. & exit /b -1 
 
-for /f "usebackq tokens=1 delims=" %%a in (`"%VSWherePath%" -version [16.0, -prerelease -requires Microsoft.VisualStudio.Workload.NativeDesktop;Microsoft.VisualStudio.Workload.VisualStudioExtension;Microsoft.VisualStudio.Workload.ManagedDesktop -property installationPath`) do call :ProcessIDE "%%a"
+for /f "usebackq tokens=1 delims=" %%a in (`"%VSWherePath%" -version [17.0, -prerelease -requires Microsoft.VisualStudio.Workload.NativeDesktop;Microsoft.VisualStudio.Workload.VisualStudioExtension;Microsoft.VisualStudio.Workload.ManagedDesktop -property installationPath`) do call :ProcessIDE "%%a"
 if NOT "%VSINSTALLDIR%"=="" goto InDevPrompt
 
-echo ERROR: Unable to find a Visual Studio install.
+echo ERROR: Unable to find a Visual Studio 2022 or newer install.
 exit /b -1
 
 :InDevPrompt
@@ -30,8 +30,8 @@ call :RestoreFromPackagesConfig CppCustomVisualizer\dll\packages.config CppCusto
 call :RestoreFromPackagesConfig HelloWorld\Cpp\dll\packages.config HelloWorld\Cpp\packages
 call :Build Iris\Iris.sln Iris "Any CPU"
 call :Build HelloWorld\cs\HelloWorld.sln CsHelloWorld "Any CPU"
-call :Build HelloWorld\cpp\HelloWorld.sln CppHelloWorld Win32
-call :Build CppCustomVisualizer\CppCustomVisualizer.sln CppCustomVisualizer x86
+call :Build HelloWorld\cpp\HelloWorld.sln CppHelloWorld x64
+call :Build CppCustomVisualizer\CppCustomVisualizer.sln CppCustomVisualizer x64
 
 if NOT "%BuildError%"=="" exit /b -1
 echo build.cmd completed successfully.
