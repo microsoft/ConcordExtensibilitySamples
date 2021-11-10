@@ -1,12 +1,6 @@
 ## ConcordExtensibilitySamples
 Visual Studio Debug Engine Extensibility Samples
 
-Build | Status
------------- | -------------
-Release | [![Build Status](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_release/badge/icon)](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_release/)
-Debug | [![Build Status](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_debug/badge/icon)](https://ci.dot.net/job/Microsoft_ConcordExtensibilitySamples/job/master/job/windows_debug/)
-
-
 ### What are "Concord Extensibility Samples"?
 [Concord](https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/Overview) is the code name for Visual Studio's new debug engine that first shipped in Visual Studio 2012.  Concord was designed to be extensible and this repo contains samples of these extensions.
 
