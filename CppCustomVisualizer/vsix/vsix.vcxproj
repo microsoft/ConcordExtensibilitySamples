@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <LocalDebuggerCommand>$(DevEnvDir)devenv.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>/rootsuffix Exp $(SolutionDir)\TargetApp\TargetApp.sln</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>/rootsuffix Exp "$(SolutionDir)\TargetApp\TargetApp.sln"</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(DevEnvDir)</LocalDebuggerWorkingDirectory>
     <LocalDebuggerAttach>false</LocalDebuggerAttach>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
