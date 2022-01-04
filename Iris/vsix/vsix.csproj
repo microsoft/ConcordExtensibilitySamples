@@ -48,7 +48,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
     <StartWorkingDirectory>$(DevEnvDir)</StartWorkingDirectory>
-    <StartArguments>/rootsuffix Exp $(SolutionDir)Programs\TicTacToe.sln</StartArguments>
+    <StartArguments>/rootsuffix Exp "$(SolutionDir)Programs\TicTacToe.sln"</StartArguments>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
