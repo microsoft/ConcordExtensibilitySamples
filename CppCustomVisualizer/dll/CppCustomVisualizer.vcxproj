@@ -124,7 +124,7 @@
     <ResourceCompile Include="CppCustomVisualizer.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\content\vsdconfig.xsd">
+    <None Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\vsdconfig.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
