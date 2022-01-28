@@ -8,9 +8,9 @@
     <VsdConfigFile>bin\$(Configuration)\$(TargetFramework)\IrisExtension.vsdconfig</VsdConfigFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Debugger.Engine" Version="17.0.1110801" />
-    <PackageReference Include="Microsoft.VisualStudio.Debugger.Metadata" Version="17.0.1110801" />
-    <PackageReference Include="Microsoft.VSSDK.Debugger.VSDConfigTool" Version="17.0.1110801">
+    <PackageReference Include="Microsoft.VisualStudio.Debugger.Engine" Version="17.0.2012801" />
+    <PackageReference Include="Microsoft.VisualStudio.Debugger.Metadata" Version="17.0.2012801" />
+    <PackageReference Include="Microsoft.VSSDK.Debugger.VSDConfigTool" Version="17.0.2012801">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>

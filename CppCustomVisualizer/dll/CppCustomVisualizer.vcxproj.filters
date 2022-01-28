@@ -77,7 +77,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\content\vsdconfig.xsd">
+    <None Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\vsdconfig.xsd">
       <Filter>Concord API %28for reference%29</Filter>
     </None>
   </ItemGroup>

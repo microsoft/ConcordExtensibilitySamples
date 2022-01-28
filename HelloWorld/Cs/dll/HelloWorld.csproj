@@ -13,7 +13,7 @@
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <FileAlignment>512</FileAlignment>
     <!--This is version of the Concord API packages -->
-    <ConcordPackageVersion>17.0.1110801</ConcordPackageVersion>
+    <ConcordPackageVersion>17.0.2012801</ConcordPackageVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
