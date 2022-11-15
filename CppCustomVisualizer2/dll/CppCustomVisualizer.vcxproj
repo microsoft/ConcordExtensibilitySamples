@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F7062FB7-42BB-4FEF-8E9B-2F65FFC7EAFA}</ProjectGuid>
+    <RootNamespace>CppCustomVisualizer</RootNamespace>
+    <Keyword>AtlProj</Keyword>
+    <CharacterSet>Unicode</CharacterSet>
+    <NugetPackagesDirectory>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\packages\))</NugetPackagesDirectory>
+  </PropertyGroup>
+  <Import Project="packages.version.props" />
+  <Import Project="..\Cpp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Dynamic</UseOfAtl>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>false</RegisterOutput>
+      <ModuleDefinitionFile>.\CppCustomVisualizer.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <DelayLoadDLLs>vsdebugeng.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <RegisterOutput>false</RegisterOutput>
+      <ModuleDefinitionFile>.\CppCustomVisualizer.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <DelayLoadDLLs>vsdebugeng.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ChildVisualizer.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="RootVisualizer.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="_EntryPoint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CppCustomVisualizer.def" />
+    <None Include="CppCustomVisualizer.vsdconfigxml" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.version.props">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\VSDebugEng.h" />
+    <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\vsdebugeng.templates.h" />
+    <ClInclude Include="ChildVisualizer.h" />
+    <ClInclude Include="dllmain.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="RootVisualizer.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="$(IntDir)CppCustomVisualizer.Contract.h" />
+    <ClInclude Include="_EntryPoint.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CppCustomVisualizer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\vsdconfig.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <VsdConfigXmlFiles Include="CppCustomVisualizer.vsdconfigxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CppCustomVisualizer.natvis" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\Microsoft.VSSDK.Debugger.VSDConfigTool.targets" Condition="Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\Microsoft.VSSDK.Debugger.VSDConfigTool.targets')" />
+    <Import Project="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\Microsoft.VSSDK.Debugger.VSDebugEng.targets" Condition="Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\Microsoft.VSSDK.Debugger.VSDebugEng.targets')" />
+  </ImportGroup>
+  <Target Name="VerifyConcordNugetPackagesRestored" BeforeTargets="PrepareForBuild">
+    <Error Condition="!Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDConfigTool.$(ConcordPackageVersion)\build\Microsoft.VSSDK.Debugger.VSDConfigTool.targets')" Text="Could not find Microsoft.VSSDK.Debugger.VSDConfigTool.targets. Right click on the solution and restore NuGet packages." />
+    <Error Condition="!Exists('$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\Microsoft.VSSDK.Debugger.VSDebugEng.targets')" Text="Could not find Microsoft.VSSDK.Debugger.VSDebugEng.targets. Right click on the solution and restore NuGet packages." />
+  </Target>
+</Project>

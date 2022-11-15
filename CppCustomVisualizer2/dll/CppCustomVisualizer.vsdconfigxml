@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) Microsoft. All rights reserved.
+Licensed under the MIT license. See LICENSE file in the project root for full license information.
+-->
+
+<!--
+This file is used to describe the CppCustomVisualizer component. This file is run through 
+vsdconfigtool.exe as part of the build, which generates two other files:
+
+* CppCustomVisualizer.Contract.h contains a C++ class header, and ensures that the code and 
+configuration stay in sync.
+
+* CppCustomVisualizer.vsdconfig is a binary version of this file which is deployed along with 
+CppCustomVisualizer.dll. CppCustomVisualizer.vsdconfig is then read by he component loading system at runtime.
+
+For more information about this file, see https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/Component-discovery-and-configuration
+-->
+
+<Configuration xmlns="http://schemas.microsoft.com/vstudio/vsdconfig/2008">
+
+  <!--TODO: If you copy the sample, ensure to regenerate the GUIDs in this file. This
+  can be done with the 'Create GUID' tool ('Tools->Create GUID' in Visual Sudio or 
+  guidgen.exe from the command line). -->
+
+  <NativeComponent
+    ComponentId="{184B8704-E76C-454A-991F-351D9AB15CFC}"
+    ComponentLevel="9991500"
+    ModuleName="CppCustomVisualizer.dll">
+    <!--NOTE: For more information on ComponentLevel, see https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/Component-Levels -->
+
+    <Class Name="CCppCustomVisualizerService" ClassId="{9535F50E-1738-4AE2-8507-5207C44B8261}" WorkerProcessSupported="true">
+
+      <Implements>
+        <InterfaceGroup>
+          <Filter>
+            <!--NOTE: This VisualizerId is also used in the .natvis file.-->
+            <VisualizerId RequiredValue="8E723FD7-611E-40E7-98C0-624D8873F559"/>
+          </Filter>
+          <Interface Name="IDkmCustomVisualizer"/>
+        </InterfaceGroup>
+      </Implements>
+    </Class>
+  
+  </NativeComponent>
+</Configuration>

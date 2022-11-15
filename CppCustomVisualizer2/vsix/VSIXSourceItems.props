@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) Microsoft. All rights reserved.
+Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+This file defines the set of files that will be included in the .vsix. This is used instead of project-to-project references
+because we need to include both the x86 and x64 implementation of CppCustomVisualizer.
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <DllBinDir>..\$(Configuration)\</DllBinDir>
+    <DllSrcDir>..\dll\</DllSrcDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <VSIXSourceItem Include="$(DllBinDir)x64\CppCustomVisualizer.vsdconfig" />
+    <VSIXSourceItem Include="$(DllBinDir)x64\CppCustomVisualizer.dll">
+      <VSIXSubPath>x64</VSIXSubPath>
+    </VSIXSourceItem>
+    <VSIXSourceItem Include="$(DllSrcDir)CppCustomVisualizer.natvis" />
+  </ItemGroup>
+</Project>
