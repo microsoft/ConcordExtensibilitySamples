@@ -32,6 +32,7 @@ call :Build Iris\Iris.sln Iris "Any CPU"
 call :Build HelloWorld\cs\HelloWorld.sln CsHelloWorld "Any CPU"
 call :Build HelloWorld\cpp\HelloWorld.sln CppHelloWorld x64
 call :Build CppCustomVisualizer\CppCustomVisualizer.sln CppCustomVisualizer x64
+call :Build CppCustomVisualizer2\CppCustomVisualizer.sln CppCustomVisualizer x64
 
 if NOT "%BuildError%"=="" exit /b -1
 echo build.cmd completed successfully.
