@@ -81,6 +81,11 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
     }
     Sample* pSampleValue = (Sample*)(void*)sampleRaw;
 
+    if (pSampleValue->a.size() != pSampleValue->b.size())
+    {
+        return E_FAIL;
+    }
+
     // Format this FILETIME as a string
     CString strValue;
     strValue.Format(L"Size = %d",pSampleValue->a.size());

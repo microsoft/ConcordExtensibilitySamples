@@ -115,6 +115,7 @@
   <ItemGroup>
     <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\VSDebugEng.h" />
     <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\vsdebugeng.templates.h" />
+    <ClInclude Include="..\headers\TargetApp.h" />
     <ClInclude Include="ChildVisualizer.h" />
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="Resource.h" />

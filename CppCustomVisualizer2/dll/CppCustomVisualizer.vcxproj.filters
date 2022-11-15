@@ -82,6 +82,9 @@
     <ClInclude Include="RootVisualizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\TargetApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CppCustomVisualizer.rc">
