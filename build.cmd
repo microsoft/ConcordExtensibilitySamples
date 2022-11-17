@@ -27,6 +27,7 @@ call :SetNugetPath nuget.exe
 call :RestoreFromSLN Iris\Iris.sln
 call :RestoreFromSLN HelloWorld\cs\HelloWorld.sln
 call :RestoreFromPackagesConfig CppCustomVisualizer\dll\packages.config CppCustomVisualizer\packages
+call :RestoreFromPackagesConfig CppCustomVisualizer2\dll\packages.config CppCustomVisualizer2\packages
 call :RestoreFromPackagesConfig HelloWorld\Cpp\dll\packages.config HelloWorld\Cpp\packages
 call :Build Iris\Iris.sln Iris "Any CPU"
 call :Build HelloWorld\cs\HelloWorld.sln CsHelloWorld "Any CPU"
