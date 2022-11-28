@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <windows.h>
-#include "../headers/TargetApp.h"
+#include "TargetApp.h"
 
 int wmain(int argc, WCHAR* argv[])
 {

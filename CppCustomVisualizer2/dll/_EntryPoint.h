@@ -8,7 +8,6 @@
 
 #include "CppCustomVisualizer.Contract.h"
 #include "RootVisualizer.h"
-#include "../headers/TargetApp.h"
 
 class ATL_NO_VTABLE CCppCustomVisualizerService :
     // Inherit from CCppCustomVisualizerServiceContract to provide the list of interfaces that

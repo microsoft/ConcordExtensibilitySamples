@@ -3,9 +3,14 @@
 #include "stdafx.h"
 #include "RootVisualizer.h"
 
-HRESULT CRootVisualizer::Initialize(_In_ DkmVisualizedExpression* pVisualizedExpression)
+HRESULT CRootVisualizer::Initialize(
+    _In_ DkmVisualizedExpression* pVisualizedExpression,
+    _In_ size_t size,
+    _In_ bool isPointer)
 {
     m_pVisualizedExpression = pVisualizedExpression;
+    m_size = size;
+    m_fIsPointer = isPointer;
     return S_OK;
 }
 
@@ -13,11 +18,6 @@ HRESULT CRootVisualizer::Initialize(_In_ DkmVisualizedExpression* pVisualizedExp
 HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pVisualizedExpression, _Deref_out_ DkmEvaluationResult** ppResultObject)
 {
     HRESULT hr = S_OK;
-
-    CComObject<CRootVisualizer>* pRootVisualizer;
-    CComObject<CRootVisualizer>::CreateInstance(&pRootVisualizer);
-    pRootVisualizer->Initialize(pVisualizedExpression);
-    pVisualizedExpression->SetDataItem(DkmDataCreationDisposition::CreateNew, pRootVisualizer);
 
     CComPtr<DkmRootVisualizedExpression> pRootVisualizedExpression = DkmRootVisualizedExpression::TryCast(pVisualizedExpression);
     if (pRootVisualizedExpression == nullptr)
@@ -27,12 +27,51 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
     }
     CComPtr<DkmString> pName = pRootVisualizedExpression->Name();
     CComPtr<DkmString> pFullName = pRootVisualizedExpression->FullName();
+    CComPtr<DkmString> pType = pRootVisualizedExpression->Type();
     DkmRootVisualizedExpressionFlags_t flags = pRootVisualizedExpression->Flags();
+
+    CString evalText;
+    bool isPointer = (pType != nullptr && wcschr(pType->Value(), '*') != nullptr);
+    size_t sizeA;
+    hr = GetSize(
+        pVisualizedExpression,
+        pFullName,
+        L"a",
+        isPointer,
+        &sizeA
+    );
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    size_t sizeB;
+    hr = GetSize(
+        pVisualizedExpression,
+        pFullName,
+        L"b",
+        isPointer,
+        &sizeB
+    );
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    if (sizeA != sizeB)
+    {
+        return E_FAIL;
+    }
+
+    CComObject<CRootVisualizer>* pRootVisualizer;
+    CComObject<CRootVisualizer>::CreateInstance(&pRootVisualizer);
+    pRootVisualizer->Initialize(pVisualizedExpression, sizeA, isPointer);
+    pVisualizedExpression->SetDataItem(DkmDataCreationDisposition::CreateNew, pRootVisualizer);
 
     hr = pRootVisualizer->CreateEvaluationResult(
         pName,
         pFullName,
-        pRootVisualizedExpression->Type(),
+        pType,
         flags,
         nullptr,
         pVisualizedExpression->InspectionContext(),
@@ -69,33 +108,17 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
         return hr;
     }
 
-    // Read the Sample value from the target process
-    // This is NOT a deep read, so we basically can only get the size of the vectors by reading the memory directly.
-    DkmProcess* pTargetProcess = pInspectionContext->RuntimeInstance()->Process();
-    BYTE sampleRaw[sizeof(Sample)];
-    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, sampleRaw, sizeof(Sample), nullptr);
-    if (FAILED(hr))
-    {
-        // If the bytes of the value cannot be read from the target process, just fall back to the default visualization
-        return E_NOTIMPL;
-    }
-    Sample* pSampleValue = (Sample*)(void*)sampleRaw;
-
-    if (pSampleValue->a.size() != pSampleValue->b.size())
-    {
-        return E_FAIL;
-    }
-
     CString strValue;
-    strValue.Format(L"Size = %zu",pSampleValue->a.size());
+    strValue.Format(L"Size = %zu",m_size);
 
     CString strEditableValue;
 
     // If we are formatting a pointer, we want to also show the address of the pointer
-    if (pType != nullptr && wcschr(pType->Value(), '*') != nullptr)
+    if (m_fIsPointer)
     {
         // Make the editable value just the pointer string
         UINT64 address = pPointerValueHome->Address();
+        DkmProcess* pTargetProcess = pInspectionContext->RuntimeInstance()->Process();
         if ((pTargetProcess->SystemInformation()->Flags() & DefaultPort::DkmSystemInformationFlags::Is64Bit) != 0)
         {
             strEditableValue.Format(L"0x%08x%08x", static_cast<DWORD>(address >> 32), static_cast<DWORD>(address));
@@ -126,7 +149,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
     }
 
     DkmEvaluationResultFlags_t resultFlags = DkmEvaluationResultFlags::None;
-    if (pSampleValue->a.size() != 0)
+    if (m_size != 0)
     {
         resultFlags |= DkmEvaluationResultFlags::Expandable;
     }
@@ -175,20 +198,9 @@ HRESULT CRootVisualizer::GetChildren(
 {
     HRESULT hr = S_OK;
 
-    CComPtr<DkmPointerValueHome> pPointerValueHome = DkmPointerValueHome::TryCast(m_pVisualizedExpression->ValueHome());
-    DkmProcess* pTargetProcess = pInspectionContext->RuntimeInstance()->Process();
-    BYTE sampleRaw[sizeof(Sample)];
-    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, sampleRaw, sizeof(Sample), nullptr);
-    if (FAILED(hr))
-    {
-        // If the bytes of the value cannot be read from the target process, just fall back to the default visualization
-        return E_NOTIMPL;
-    }
-    Sample* pSampleValue = (Sample*)(void*)sampleRaw;
-
     CComPtr<DkmEvaluationResultEnumContext> pEnumContext;
     hr = DkmEvaluationResultEnumContext::Create(
-        pSampleValue->a.size(),
+        m_size,
         m_pVisualizedExpression->StackFrame(),
         pInspectionContext,
         this,
@@ -219,19 +231,10 @@ HRESULT CRootVisualizer::GetItems(
     HRESULT hr = S_OK;
 
     CComPtr<DkmPointerValueHome> pPointerValueHome = DkmPointerValueHome::TryCast(pVisualizedExpression->ValueHome());
-    DkmProcess* pTargetProcess = pVisualizedExpression->RuntimeInstance()->Process();
-    BYTE sampleRaw[sizeof(Sample)];
-    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, sampleRaw, sizeof(Sample), nullptr);
-    if (FAILED(hr))
-    {
-        // If the bytes of the value cannot be read from the target process, just fall back to the default visualization
-        return E_NOTIMPL;
-    }
-    Sample* pSampleValue = (Sample*)(void*)sampleRaw;
 
     CAtlList<CComPtr<DkmChildVisualizedExpression>> childItems;
 
-    for (UINT32 i = StartIndex; i < Count + StartIndex && i < pSampleValue->a.size(); i++)
+    for (UINT32 i = StartIndex; i < Count + StartIndex && i < m_size; i++)
     {
         CComPtr<DkmPointerValueHome> pParentPointerValueHome = DkmPointerValueHome::TryCast(pVisualizedExpression->ValueHome());
 
@@ -251,7 +254,7 @@ HRESULT CRootVisualizer::GetItems(
 
         CComObject<CChildVisualizer>* pChildVisualizer;
         CComObject<CChildVisualizer>::CreateInstance(&pChildVisualizer);
-        pChildVisualizer->Initialize(m_pVisualizedExpression, pSampleValue->a.size(), i);
+        pChildVisualizer->Initialize(m_pVisualizedExpression, m_size, i, m_fIsPointer);
 
         CComPtr<DkmEvaluationResult> pEvaluationResult;
         hr = pChildVisualizer->CreateEvaluationResult(
@@ -307,6 +310,70 @@ HRESULT CRootVisualizer::GetItems(
     }
 
     *pItems = resultValues.Detach();
+
+    return hr;
+}
+
+HRESULT CRootVisualizer::GetSize(
+    _In_ Evaluation::DkmVisualizedExpression* pVisualizedExpression,
+    _In_ DkmString* pFullName,
+    _In_ LPCWSTR pMemberName,
+    _In_ bool rootIsPointer,
+    _Out_ size_t* pSize
+)
+{
+    HRESULT hr = S_OK;
+
+    CString evalText;
+    if (rootIsPointer)
+    {
+        evalText.Format(L"(%s)->%s.size()", pFullName->Value(), pMemberName);
+    }
+    else
+    {
+        evalText.Format(L"(%s).%s.size()", pFullName->Value(), pMemberName);
+    }
+    CComPtr<DkmString> pEvalText;
+    hr = DkmString::Create(DkmSourceString(evalText), &pEvalText);
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    CComPtr<DkmLanguageExpression> pLanguageExpression;
+    hr = DkmLanguageExpression::Create(
+        pVisualizedExpression->InspectionContext()->Language(),
+        DkmEvaluationFlags::TreatAsExpression,
+        pEvalText,
+        DkmDataItem::Null(),
+        &pLanguageExpression
+    );
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+    CComPtr<DkmEvaluationResult> pEvalResult;
+    hr = pVisualizedExpression->EvaluateExpressionCallback(
+        pVisualizedExpression->InspectionContext(),
+        pLanguageExpression,
+        pVisualizedExpression->StackFrame(),
+        &pEvalResult
+    );
+    if (FAILED(hr))
+    {
+        return hr;
+    }
+
+    CComPtr<DkmSuccessEvaluationResult> pSuccessEvalResult = DkmSuccessEvaluationResult::TryCast(pEvalResult);
+    if (pSuccessEvalResult == nullptr || pSuccessEvalResult->Value() == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    if (swscanf(pSuccessEvalResult->Value()->Value(), L"%zu", pSize) != 1)
+    {
+        return E_FAIL;
+    }
 
     return hr;
 }

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "ChildVisualizer.h"
-#include "../headers/TargetApp.h"
 
 class ATL_NO_VTABLE __declspec(uuid("1b029bbd-27fa-4872-b27a-bad9a22d6603")) CRootVisualizer :
     public IUnknown,
@@ -11,6 +10,8 @@ class ATL_NO_VTABLE __declspec(uuid("1b029bbd-27fa-4872-b27a-bad9a22d6603")) CRo
 {
 private:
     CComPtr<DkmVisualizedExpression> m_pVisualizedExpression;
+    size_t m_size;
+    bool m_fIsPointer;
 
 public:
     CRootVisualizer()
@@ -23,7 +24,11 @@ public:
     DECLARE_NO_REGISTRY();
     DECLARE_NOT_AGGREGATABLE(CRootVisualizer);
 
-    HRESULT STDMETHODCALLTYPE Initialize(_In_ DkmVisualizedExpression* pVisualizedExpression);
+    HRESULT STDMETHODCALLTYPE Initialize(
+        _In_ DkmVisualizedExpression* pVisualizedExpression,
+        _In_ size_t size,
+        _In_ bool isPointer
+    );
 
     static HRESULT CreateEvaluationResult(
         _In_ Evaluation::DkmVisualizedExpression* pVisualizedExpression,
@@ -54,7 +59,16 @@ public:
     );
 
 protected:
-    HRESULT _InternalQueryInterface(REFIID riid, void** ppvObject)
+    // Evaluate the size of a vector in Sample using EE
+    static HRESULT STDMETHODCALLTYPE GetSize(
+        _In_ Evaluation::DkmVisualizedExpression* pVisualizedExpression,
+        _In_ DkmString* pFullName,
+        _In_ LPCWSTR pMemberName,
+        _In_ bool rootIsPointer,
+        _Out_ size_t* pSize
+    );
+
+    HRESULT STDMETHODCALLTYPE _InternalQueryInterface(REFIID riid, void** ppvObject)
     {
         if (ppvObject == NULL)
             return E_POINTER;

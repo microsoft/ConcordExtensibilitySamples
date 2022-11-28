@@ -6,12 +6,14 @@
 HRESULT CChildVisualizer::Initialize(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
     _In_ size_t vectorSize,
-    _In_ size_t parentIndex
+    _In_ size_t parentIndex,
+    _In_ bool rootIsPointer
 )
 {
     m_pVisualizedExpression = pVisualizedExpression;
     m_vectorSize = vectorSize;
     m_parentIndex = parentIndex;
+    m_fRootIsPointer = rootIsPointer;
     return S_OK;
 }
 
@@ -117,6 +119,10 @@ HRESULT CChildVisualizer::GetChildren(
     return hr;
 }
 
+static LPCWSTR itemNames[2] = { L"A", L"B" };
+static LPCWSTR itemExprs[2] = { L"(%s).a[%zu]", L"(%s).b[%zu]" };
+static LPCWSTR itemExprsPtr[2] = { L"(%s)->a[%zu]", L"(%s)->b[%zu]" };
+
 HRESULT CChildVisualizer::GetItems(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
     _In_ DkmEvaluationResultEnumContext* pEnumContext,
@@ -127,7 +133,7 @@ HRESULT CChildVisualizer::GetItems(
 {
     HRESULT hr = S_OK;
 
-    if (StartIndex != 0 && Count != 2)
+    if (Count == 0 || StartIndex > 1 || StartIndex + Count > 2)
     {
         return E_INVALIDARG;
     }
@@ -161,66 +167,46 @@ HRESULT CChildVisualizer::GetItems(
         pFullName = pRootVisualizedExpression->FullName();
     }
 
-    CString evalTextA;
-    evalTextA.Format(L"%s.a[%zu]", pFullName->Value(), m_parentIndex);
-    CComPtr<DkmString> pEvalTextA;
-    hr = DkmString::Create(DkmSourceString(evalTextA), &pEvalTextA);
-    if (FAILED(hr))
+    for (UINT32 i = 0; i < Count; i++)
     {
-        return hr;
-    }
+        CString evalText;
+        if (m_fRootIsPointer)
+        {
+            evalText.Format(itemExprsPtr[StartIndex + i], pFullName->Value(), m_parentIndex);
+        }
+        else
+        {
+            evalText.Format(itemExprs[StartIndex + i], pFullName->Value(), m_parentIndex);
+        }
+        CComPtr<DkmString> pEvalText;
+        hr = DkmString::Create(DkmSourceString(evalText), &pEvalText);
+        if (FAILED(hr))
+        {
+            return hr;
+        }
 
-    CComPtr<DkmString> pDisplayNameA;
-    hr = DkmString::Create(DkmSourceString(L"A"), &pDisplayNameA);
-    if (FAILED(hr))
-    {
-        return hr;
-    }
+        CComPtr<DkmString> pDisplayName;
+        hr = DkmString::Create(DkmSourceString(itemNames[StartIndex + i]), &pDisplayName);
+        if (FAILED(hr))
+        {
+            return hr;
+        }
 
-    CComPtr<DkmChildVisualizedExpression> pChildVisualizedExpressionA;
-    hr = CreateItemVisualizedExpression(
-        pEvalTextA,
-        pDisplayNameA,
-        pType,
-        0,
-        &pChildVisualizedExpressionA
-    );
-    if (FAILED(hr))
-    {
-        return hr;
-    }
+        CComPtr<DkmChildVisualizedExpression> pChildVisualizedExpression;
+        hr = CreateItemVisualizedExpression(
+            pEvalText,
+            pDisplayName,
+            pType,
+            StartIndex + i,
+            &pChildVisualizedExpression
+        );
+        if (FAILED(hr))
+        {
+            return hr;
+        }
 
-    CString evalTextB;
-    evalTextB.Format(L"%s.b[%zu]", pFullName->Value(), m_parentIndex);
-    CComPtr<DkmString> pEvalTextB;
-    hr = DkmString::Create(DkmSourceString(evalTextB), &pEvalTextB);
-    if (FAILED(hr))
-    {
-        return hr;
+        resultValues.Members[i] = pChildVisualizedExpression.Detach();
     }
-
-    CComPtr<DkmString> pDisplayNameB;
-    hr = DkmString::Create(DkmSourceString(L"B"), &pDisplayNameB);
-    if (FAILED(hr))
-    {
-        return hr;
-    }
-
-    CComPtr<DkmChildVisualizedExpression> pChildVisualizedExpressionB;
-    hr = CreateItemVisualizedExpression(
-        pEvalTextB,
-        pDisplayNameB,
-        pType,
-        1,
-        &pChildVisualizedExpressionB
-    );
-    if (FAILED(hr))
-    {
-        return hr;
-    }
-
-    resultValues.Members[0] = pChildVisualizedExpressionA.Detach();
-    resultValues.Members[1] = pChildVisualizedExpressionB.Detach();
 
     *pItems = resultValues.Detach();
 
