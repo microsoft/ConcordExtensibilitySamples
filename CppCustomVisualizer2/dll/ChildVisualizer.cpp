@@ -44,11 +44,7 @@ HRESULT CChildVisualizer::CreateEvaluationResult(
     }
 
     CString strValue;
-    strValue.Format(L"%i", index);
-    if (FAILED(hr))
-    {
-        strValue = "<Invalid Value>";
-    }
+    strValue.Format(L"%zu", index);
 
     CComPtr<DkmString> pValue;
     hr = DkmString::Create(DkmSourceString(strValue), &pValue);
@@ -115,10 +111,6 @@ HRESULT CChildVisualizer::GetChildren(
     {
         GetItems(m_pVisualizedExpression, pEnumContext, 0, childCount, pInitialChildren);
     }
-    else
-    {
-        DkmAllocArray(0, pInitialChildren);
-    }
 
     *ppEnumContext = pEnumContext.Detach();
 
@@ -170,7 +162,7 @@ HRESULT CChildVisualizer::GetItems(
     }
 
     CString evalTextA;
-    evalTextA.Format(L"%s.a[%i]", pFullName->Value(), m_parentIndex);
+    evalTextA.Format(L"%s.a[%zu]", pFullName->Value(), m_parentIndex);
     CComPtr<DkmString> pEvalTextA;
     hr = DkmString::Create(DkmSourceString(evalTextA), &pEvalTextA);
     if (FAILED(hr))
@@ -199,7 +191,7 @@ HRESULT CChildVisualizer::GetItems(
     }
 
     CString evalTextB;
-    evalTextB.Format(L"%s.b[%i]", pFullName->Value(), m_parentIndex);
+    evalTextB.Format(L"%s.b[%zu]", pFullName->Value(), m_parentIndex);
     CComPtr<DkmString> pEvalTextB;
     hr = DkmString::Create(DkmSourceString(evalTextB), &pEvalTextB);
     if (FAILED(hr))

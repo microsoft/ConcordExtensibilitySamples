@@ -5,7 +5,6 @@ VisualStudioVersion = 17.65535.65535.65535
 MinimumVisualStudioVersion = 17.0.0.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1375CB4F-7AD1-4269-927D-54AA9052B9BF}"
 	ProjectSection(SolutionItems) = preProject
-		Cpp.props = Cpp.props
 		README.md = README.md
 	EndProjectSection
 EndProject

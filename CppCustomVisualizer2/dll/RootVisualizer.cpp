@@ -86,13 +86,8 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
         return E_FAIL;
     }
 
-    // Format this FILETIME as a string
     CString strValue;
-    strValue.Format(L"Size = %d",pSampleValue->a.size());
-    if (FAILED(hr))
-    {
-        strValue = "<Invalid Value>";
-    }
+    strValue.Format(L"Size = %zu",pSampleValue->a.size());
 
     CString strEditableValue;
 
@@ -207,10 +202,7 @@ HRESULT CRootVisualizer::GetChildren(
     {
         GetItems(m_pVisualizedExpression, pEnumContext, 0, InitialRequestSize, pInitialChildren);
     }
-    else
-    {
-        DkmAllocArray(0, pInitialChildren);
-    }
+
     *ppEnumContext = pEnumContext.Detach();
 
     return hr;

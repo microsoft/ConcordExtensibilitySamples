@@ -5,7 +5,7 @@
 class Sample
 {
 public:
-    // a.size() == b.size()
+    // Expecting a.size() == b.size()
     std::vector<int> a;
     std::vector<int> b;
 };
