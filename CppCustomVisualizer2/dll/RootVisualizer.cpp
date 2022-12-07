@@ -5,7 +5,7 @@
 
 HRESULT CRootVisualizer::Initialize(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
-    _In_ size_t size,
+    _In_ unsigned long long size,
     _In_ bool isPointer)
 {
     m_pVisualizedExpression = pVisualizedExpression;
@@ -32,7 +32,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
 
     CString evalText;
     bool isPointer = (pType != nullptr && wcschr(pType->Value(), '*') != nullptr);
-    size_t sizeA;
+    unsigned long long sizeA;
     hr = GetSize(
         pVisualizedExpression,
         pFullName,
@@ -45,7 +45,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
         return hr;
     }
 
-    size_t sizeB;
+    unsigned long long sizeB;
     hr = GetSize(
         pVisualizedExpression,
         pFullName,
@@ -109,7 +109,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
     }
 
     CString strValue;
-    strValue.Format(L"Size = %zu",m_size);
+    strValue.Format(L"Size = %llu", m_size);
 
     CString strEditableValue;
 
@@ -319,7 +319,7 @@ HRESULT CRootVisualizer::GetSize(
     _In_ DkmString* pFullName,
     _In_ LPCWSTR pMemberName,
     _In_ bool rootIsPointer,
-    _Out_ size_t* pSize
+    _Out_ unsigned long long* pSize
 )
 {
     HRESULT hr = S_OK;
@@ -370,10 +370,7 @@ HRESULT CRootVisualizer::GetSize(
         return E_FAIL;
     }
 
-    if (swscanf(pSuccessEvalResult->Value()->Value(), L"%zu", pSize) != 1)
-    {
-        return E_FAIL;
-    }
+    *pSize = wcstoull(pSuccessEvalResult->Value()->Value(), nullptr, 10);
 
     return hr;
 }

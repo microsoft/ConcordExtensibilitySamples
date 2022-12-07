@@ -8,8 +8,8 @@ class ATL_NO_VTABLE __declspec(uuid("61131513-4f8d-4d5f-a2e3-8e346fe5ff20")) CCh
 {
 private:
     CComPtr<DkmVisualizedExpression> m_pVisualizedExpression;
-    size_t m_vectorSize;
-    size_t m_parentIndex;
+    unsigned long long m_vectorSize;
+    unsigned long long m_parentIndex;
     bool m_fRootIsPointer;
 
 public:
@@ -25,8 +25,8 @@ public:
 
     HRESULT STDMETHODCALLTYPE Initialize(
         _In_ DkmVisualizedExpression* pVisualizedExpression,
-        _In_ size_t vectorSize,
-        _In_ size_t parentIndex,
+        _In_ unsigned long long vectorSize,
+        _In_ unsigned long long parentIndex,
         _In_ bool rootIsPointer
     );
 
@@ -37,7 +37,7 @@ public:
         _In_ Evaluation::DkmRootVisualizedExpressionFlags_t flags,
         _In_opt_ Evaluation::DkmVisualizedExpression* pParent,
         _In_ Evaluation::DkmInspectionContext* pInspectionContext,
-        _In_ size_t index,
+        _In_ unsigned long long index,
         _Deref_out_ Evaluation::DkmEvaluationResult** ppResultObject
     );
     HRESULT STDMETHODCALLTYPE GetChildren(
@@ -76,7 +76,7 @@ private:
         _In_ DkmString* pEvalText,
         _In_ DkmString* pDisplayName,
         _In_ DkmString* pType,
-        _In_ size_t index,
+        _In_ unsigned long long index,
         _Deref_out_ DkmChildVisualizedExpression** ppResult
     );
 };

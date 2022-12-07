@@ -5,8 +5,8 @@
 
 HRESULT CChildVisualizer::Initialize(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
-    _In_ size_t vectorSize,
-    _In_ size_t parentIndex,
+    _In_ unsigned long long vectorSize,
+    _In_ unsigned long long parentIndex,
     _In_ bool rootIsPointer
 )
 {
@@ -24,7 +24,7 @@ HRESULT CChildVisualizer::CreateEvaluationResult(
     _In_ DkmRootVisualizedExpressionFlags_t flags,
     _In_opt_ DkmVisualizedExpression* pParent,
     _In_ DkmInspectionContext* pInspectionContext,
-    _In_ size_t index,
+    _In_ unsigned long long index,
     _Deref_out_ DkmEvaluationResult** ppResultObject
 )
 {
@@ -46,7 +46,7 @@ HRESULT CChildVisualizer::CreateEvaluationResult(
     }
 
     CString strValue;
-    strValue.Format(L"%zu", index);
+    strValue.Format(L"%llu", index);
 
     CComPtr<DkmString> pValue;
     hr = DkmString::Create(DkmSourceString(strValue), &pValue);
@@ -120,8 +120,8 @@ HRESULT CChildVisualizer::GetChildren(
 }
 
 static LPCWSTR itemNames[2] = { L"A", L"B" };
-static LPCWSTR itemExprs[2] = { L"(%s).a[%zu]", L"(%s).b[%zu]" };
-static LPCWSTR itemExprsPtr[2] = { L"(%s)->a[%zu]", L"(%s)->b[%zu]" };
+static LPCWSTR itemExprs[2] = { L"(%s).a[%llu]", L"(%s).b[%llu]" };
+static LPCWSTR itemExprsPtr[2] = { L"(%s)->a[%llu]", L"(%s)->b[%llu]" };
 
 HRESULT CChildVisualizer::GetItems(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
@@ -217,7 +217,7 @@ HRESULT CChildVisualizer::CreateItemVisualizedExpression(
     _In_ DkmString* pEvalText,
     _In_ DkmString* pDisplayName,
     _In_ DkmString* pType,
-    _In_ size_t index,
+    _In_ unsigned long long index,
     _Deref_out_ DkmChildVisualizedExpression** ppResult
 )
 {
