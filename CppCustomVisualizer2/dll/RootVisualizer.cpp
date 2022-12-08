@@ -370,7 +370,13 @@ HRESULT CRootVisualizer::GetSize(
         return E_FAIL;
     }
 
-    *pSize = wcstoull(pSuccessEvalResult->Value()->Value(), nullptr, 10);
+    LPCWSTR sizeStr = pSuccessEvalResult->Value()->Value();
+    LPWSTR endPtr;
+    *pSize = wcstoull(sizeStr, &endPtr, 0);
+    if (sizeStr == endPtr)
+    {
+        return E_FAIL;
+    }
 
     return hr;
 }
