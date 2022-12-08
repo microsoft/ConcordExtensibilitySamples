@@ -9,7 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "dll\HelloWorl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE930018-3F5B-4586-A11D-8F9220A9596D}"
 	ProjectSection(SolutionItems) = preProject
-		Cpp.props = Cpp.props
 	EndProjectSection
 EndProject
 Global

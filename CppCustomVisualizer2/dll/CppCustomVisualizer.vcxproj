@@ -94,7 +94,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChildVisualizer.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="RootVisualizer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -113,8 +115,11 @@
   <ItemGroup>
     <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\VSDebugEng.h" />
     <ClInclude Include="$(NugetPackagesDirectory)Microsoft.VSSDK.Debugger.VSDebugEng.$(ConcordPackageVersion)\build\native\inc\vsdebugeng.templates.h" />
+    <ClInclude Include="..\headers\TargetApp.h" />
+    <ClInclude Include="ChildVisualizer.h" />
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RootVisualizer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="$(IntDir)CppCustomVisualizer.Contract.h" />

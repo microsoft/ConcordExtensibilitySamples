@@ -27,11 +27,13 @@ call :SetNugetPath nuget.exe
 call :RestoreFromSLN Iris\Iris.sln
 call :RestoreFromSLN HelloWorld\cs\HelloWorld.sln
 call :RestoreFromPackagesConfig CppCustomVisualizer\dll\packages.config CppCustomVisualizer\packages
+call :RestoreFromPackagesConfig CppCustomVisualizer2\dll\packages.config CppCustomVisualizer2\packages
 call :RestoreFromPackagesConfig HelloWorld\Cpp\dll\packages.config HelloWorld\Cpp\packages
 call :Build Iris\Iris.sln Iris "Any CPU"
 call :Build HelloWorld\cs\HelloWorld.sln CsHelloWorld "Any CPU"
 call :Build HelloWorld\cpp\HelloWorld.sln CppHelloWorld x64
 call :Build CppCustomVisualizer\CppCustomVisualizer.sln CppCustomVisualizer x64
+call :Build CppCustomVisualizer2\CppCustomVisualizer.sln CppCustomVisualizer x64
 
 if NOT "%BuildError%"=="" exit /b -1
 echo build.cmd completed successfully.
