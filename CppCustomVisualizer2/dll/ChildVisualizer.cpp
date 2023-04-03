@@ -93,6 +93,8 @@ HRESULT CChildVisualizer::GetChildren(
 )
 {
     HRESULT hr = S_OK;
+    pInitialChildren->Members = nullptr;
+    pInitialChildren->Length = 0;
 
     // A and B
     UINT32 childCount = 2;

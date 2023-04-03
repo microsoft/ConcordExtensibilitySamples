@@ -16,6 +16,9 @@ private:
 public:
     CRootVisualizer()
     {
+        m_pVisualizedExpression = nullptr;
+        m_size = 0;
+        m_fIsPointer = false;
     }
     ~CRootVisualizer()
     {

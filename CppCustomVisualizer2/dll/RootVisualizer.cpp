@@ -197,6 +197,8 @@ HRESULT CRootVisualizer::GetChildren(
 )
 {
     HRESULT hr = S_OK;
+    pInitialChildren->Members = nullptr;
+    pInitialChildren->Length = 0;
 
     CComPtr<DkmEvaluationResultEnumContext> pEnumContext;
     hr = DkmEvaluationResultEnumContext::Create(
