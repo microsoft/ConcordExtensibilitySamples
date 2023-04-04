@@ -15,6 +15,9 @@ private:
 public:
     CChildVisualizer()
     {
+        m_vectorSize = 0;
+        m_parentIndex = 0;
+        m_fRootIsPointer = false;
     }
     ~CChildVisualizer()
     {
