@@ -15,9 +15,8 @@ private:
 public:
     CChildVisualizer()
     {
-        m_pVisualizedExpression = nullptr;
         m_vectorSize = 0;
-        m_parentIndex =
+        m_parentIndex = 0;
         m_fRootIsPointer = false;
     }
     ~CChildVisualizer()
