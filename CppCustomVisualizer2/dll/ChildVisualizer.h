@@ -79,7 +79,7 @@ private:
         _In_ DkmString* pEvalText,
         _In_ DkmString* pDisplayName,
         _In_ DkmString* pType,
-        _In_ unsigned long long index,
+        _In_ UINT32 index,
         _Deref_out_ DkmChildVisualizedExpression** ppResult
     );
 };

@@ -172,13 +172,16 @@ HRESULT CChildVisualizer::GetItems(
     for (UINT32 i = 0; i < Count; i++)
     {
         CString evalText;
+
+        UINT32 index = StartIndex + 1;
+        VSAnalysisAssume(index < _countof(itemExprsPtr) && index < _countof(itemExprs) , "Should be impossible: already validated at start of function");
         if (m_fRootIsPointer)
         {
-            evalText.Format(itemExprsPtr[StartIndex + i], pFullName->Value(), m_parentIndex);
+            evalText.Format(itemExprsPtr[index], pFullName->Value(), m_parentIndex);
         }
         else
         {
-            evalText.Format(itemExprs[StartIndex + i], pFullName->Value(), m_parentIndex);
+            evalText.Format(itemExprs[index], pFullName->Value(), m_parentIndex);
         }
         CComPtr<DkmString> pEvalText;
         hr = DkmString::Create(DkmSourceString(evalText), &pEvalText);
@@ -188,7 +191,7 @@ HRESULT CChildVisualizer::GetItems(
         }
 
         CComPtr<DkmString> pDisplayName;
-        hr = DkmString::Create(DkmSourceString(itemNames[StartIndex + i]), &pDisplayName);
+        hr = DkmString::Create(DkmSourceString(itemNames[index]), &pDisplayName);
         if (FAILED(hr))
         {
             return hr;
@@ -199,7 +202,7 @@ HRESULT CChildVisualizer::GetItems(
             pEvalText,
             pDisplayName,
             pType,
-            StartIndex + i,
+            index,
             &pChildVisualizedExpression
         );
         if (FAILED(hr))
@@ -219,7 +222,7 @@ HRESULT CChildVisualizer::CreateItemVisualizedExpression(
     _In_ DkmString* pEvalText,
     _In_ DkmString* pDisplayName,
     _In_ DkmString* pType,
-    _In_ unsigned long long index,
+    _In_ UINT32 index,
     _Deref_out_ DkmChildVisualizedExpression** ppResult
 )
 {
