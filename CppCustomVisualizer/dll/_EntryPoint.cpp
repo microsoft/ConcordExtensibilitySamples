@@ -35,7 +35,8 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::EvaluateVisualizedExpress
     // Read the FILETIME value from the target process
     DkmProcess* pTargetProcess = pVisualizedExpression->RuntimeInstance()->Process();
     FILETIME value;
-    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, &value, sizeof(value), nullptr);
+    UINT32 bytesRead;
+    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, &value, sizeof(value), &bytesRead);
     if (FAILED(hr))
     {
         // If the bytes of the value cannot be read from the target process, just fall back to the default visualization
@@ -347,7 +348,7 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
         return WIN32_LAST_ERROR();
     }
 
-    pBuffer += (cch-1); // '-1' is to convert from a character count (including null terminator) to a length
+    pBuffer += (cch-1L); // '-1' is to convert from a character count (including null terminator) to a length
     int remainaingLength = allocLength - (cch-1);
 
     // Add a space between the date and the time

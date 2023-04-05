@@ -15,6 +15,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpRes
 }
 
 // Used to determine whether the DLL can be unloaded by OLE
+__control_entrypoint(DllExport)
 STDAPI DllCanUnloadNow(void)
 {
     return _AtlModule.DllCanUnloadNow();

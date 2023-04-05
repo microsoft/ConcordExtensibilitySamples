@@ -64,19 +64,23 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
     }
 
     CComObject<CRootVisualizer>* pRootVisualizer;
-    CComObject<CRootVisualizer>::CreateInstance(&pRootVisualizer);
-    pRootVisualizer->Initialize(pVisualizedExpression, sizeA, isPointer);
-    pVisualizedExpression->SetDataItem(DkmDataCreationDisposition::CreateNew, pRootVisualizer);
+    if (SUCCEEDED(CComObject<CRootVisualizer>::CreateInstance(&pRootVisualizer) && pRootVisualizer != nullptr))
+    {
+        if (SUCCEEDED(pRootVisualizer->Initialize(pVisualizedExpression, sizeA, isPointer)) && pVisualizedExpression != nullptr)
+        {
+            pVisualizedExpression->SetDataItem(DkmDataCreationDisposition::CreateNew, pRootVisualizer);
 
-    hr = pRootVisualizer->CreateEvaluationResult(
-        pName,
-        pFullName,
-        pType,
-        flags,
-        nullptr,
-        pVisualizedExpression->InspectionContext(),
-        ppResultObject
-    );
+            hr = pRootVisualizer->CreateEvaluationResult(
+                pName,
+                pFullName,
+                pType,
+                flags,
+                nullptr,
+                pVisualizedExpression->InspectionContext(),
+                ppResultObject
+            );
+        }
+    }
 
     return hr;
 }
@@ -367,12 +371,18 @@ HRESULT CRootVisualizer::GetSize(
     }
 
     CComPtr<DkmSuccessEvaluationResult> pSuccessEvalResult = DkmSuccessEvaluationResult::TryCast(pEvalResult);
-    if (pSuccessEvalResult == nullptr || pSuccessEvalResult->Value() == nullptr)
+    if (pSuccessEvalResult == nullptr)
     {
         return E_FAIL;
     }
 
-    LPCWSTR sizeStr = pSuccessEvalResult->Value()->Value();
+    CComPtr<DkmString> pValue = pSuccessEvalResult->Value();
+    if (pValue == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    LPCWSTR sizeStr = pValue->Value();
     LPWSTR endPtr;
     *pSize = wcstoull(sizeStr, &endPtr, 0);
     if (sizeStr == endPtr)
