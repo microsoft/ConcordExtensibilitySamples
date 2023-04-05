@@ -19,6 +19,7 @@
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
 #include "resource.h"
+#include "assert.h"
 #include <atlbase.h>
 #include <atlcom.h>
 #include <atlctl.h>
@@ -43,3 +44,11 @@ inline _Ret_range_(0x8000000, 0xffffffff) HRESULT WIN32_LAST_ERROR()
 {
     return WIN32_ERROR(GetLastError());
 }
+
+#if defined(_PREFAST_)
+    #define VSAnalysisAssume(cond, text) __analysis_assume(cond)
+#elif defined(_DEBUG)
+    #define VSAnalysisAssume(cond, text)  assert(cond)
+#else
+    #define VSAnalysisAssume(cond, text)
+#endif

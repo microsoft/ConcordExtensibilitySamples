@@ -18,6 +18,7 @@ HRESULT CRootVisualizer::Initialize(
 HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pVisualizedExpression, _Deref_out_ DkmEvaluationResult** ppResultObject)
 {
     HRESULT hr = S_OK;
+    *ppResultObject = nullptr;
 
     CComPtr<DkmRootVisualizedExpression> pRootVisualizedExpression = DkmRootVisualizedExpression::TryCast(pVisualizedExpression);
     if (pRootVisualizedExpression == nullptr)
@@ -64,9 +65,9 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
     }
 
     CComObject<CRootVisualizer>* pRootVisualizer;
-    if (SUCCEEDED(CComObject<CRootVisualizer>::CreateInstance(&pRootVisualizer) && pRootVisualizer != nullptr))
+    if (SUCCEEDED(hr = CComObject<CRootVisualizer>::CreateInstance(&pRootVisualizer)) && pRootVisualizer != nullptr)
     {
-        if (SUCCEEDED(pRootVisualizer->Initialize(pVisualizedExpression, sizeA, isPointer)) && pVisualizedExpression != nullptr)
+        if (SUCCEEDED(hr = pRootVisualizer->Initialize(pVisualizedExpression, sizeA, isPointer)) && pVisualizedExpression != nullptr)
         {
             pVisualizedExpression->SetDataItem(DkmDataCreationDisposition::CreateNew, pRootVisualizer);
 

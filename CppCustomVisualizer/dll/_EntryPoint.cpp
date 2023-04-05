@@ -35,8 +35,8 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::EvaluateVisualizedExpress
     // Read the FILETIME value from the target process
     DkmProcess* pTargetProcess = pVisualizedExpression->RuntimeInstance()->Process();
     FILETIME value;
-    UINT32 bytesRead;
-    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, &value, sizeof(value), &bytesRead);
+#pragma prefast(suppress:6387, "pBytesRead is unused and can be null")
+    hr = pTargetProcess->ReadMemory(pPointerValueHome->Address(), DkmReadMemoryFlags::None, &value, sizeof(value), nullptr);
     if (FAILED(hr))
     {
         // If the bytes of the value cannot be read from the target process, just fall back to the default visualization

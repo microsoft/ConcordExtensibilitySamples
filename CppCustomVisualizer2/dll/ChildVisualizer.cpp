@@ -173,12 +173,8 @@ HRESULT CChildVisualizer::GetItems(
     {
         CString evalText;
 
-        UINT32 index = StartIndex + i;
-        if (index >= 2)
-        {
-            continue;
-        }
-
+        UINT32 index = StartIndex + 1;
+        VSAnalysisAssume(index < _countof(itemExprsPtr) && index < _countof(itemExprs) , "Should be impossible: already validated at start of function");
         if (m_fRootIsPointer)
         {
             evalText.Format(itemExprsPtr[index], pFullName->Value(), m_parentIndex);
