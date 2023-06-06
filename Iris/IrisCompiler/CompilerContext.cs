@@ -156,7 +156,7 @@ namespace IrisCompiler
             // This sample just uses the same assemblies as the compiler is running against.
             // This is not ideal for .NET Core -- normally in .NET Core compilation is done
             // against reference assemblies. For example, the assemblies in
-            // C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\5.0.0\ref\net5.0
+            // C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\5.0.0\ref\net6.0
             // Instead this will compile against implementation assemblies, which could cause
             // problems in the future.
 
