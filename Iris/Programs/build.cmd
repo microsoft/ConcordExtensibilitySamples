@@ -6,7 +6,7 @@ popd
 set CmdCompilerDir=%IrisRoot%\ic
 set RuntimeDir=%IrisRoot%\IrisRuntime
 set BuiltConfig=Debug
-set TargetFramework=net5.0
+set TargetFramework=net6.0
 if exist %CmdCompilerDir%\bin\%TargetFramework%\Release\ic.exe set BuiltConfig=Release
 set CmdCompilerPath=%CmdCompilerDir%\bin\%BuiltConfig%\%TargetFramework%\ic.exe
 set RuntimePath=%RuntimeDir%\bin\%BuiltConfig%\IrisRuntime.dll
