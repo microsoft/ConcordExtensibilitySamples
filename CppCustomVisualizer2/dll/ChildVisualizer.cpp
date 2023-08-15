@@ -20,7 +20,6 @@ HRESULT CChildVisualizer::Initialize(
 HRESULT CChildVisualizer::CreateEvaluationResult(
     _In_ DkmString* pName,
     _In_ DkmString* pFullName,
-    _In_ DkmString* pType,
     _In_ DkmRootVisualizedExpressionFlags_t flags,
     _In_opt_ DkmVisualizedExpression* pParent,
     _In_ DkmInspectionContext* pInspectionContext,
@@ -64,7 +63,7 @@ HRESULT CChildVisualizer::CreateEvaluationResult(
         DkmEvaluationResultFlags::Expandable | DkmEvaluationResultFlags::ReadOnly,
         pValue,
         pValue,
-        pType,
+        nullptr,
         DkmEvaluationResultCategory::Class,
         DkmEvaluationResultAccessType::None,
         DkmEvaluationResultStorageType::None,

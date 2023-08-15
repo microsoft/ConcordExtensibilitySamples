@@ -5,7 +5,7 @@
 
 HRESULT CRootVisualizer::Initialize(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
-    _In_ unsigned long long size,
+    _In_ unsigned int size,
     _In_ bool isPointer)
 {
     m_pVisualizedExpression = pVisualizedExpression;
@@ -33,7 +33,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
 
     CString evalText;
     bool isPointer = (pType != nullptr && wcschr(pType->Value(), '*') != nullptr);
-    unsigned long long sizeA;
+    unsigned int sizeA;
     hr = GetSize(
         pVisualizedExpression,
         pFullName,
@@ -46,7 +46,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
         return hr;
     }
 
-    unsigned long long sizeB;
+    unsigned int sizeB;
     hr = GetSize(
         pVisualizedExpression,
         pFullName,
@@ -114,7 +114,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
     }
 
     CString strValue;
-    strValue.Format(L"Size = %llu", m_size);
+    strValue.Format(L"Size = %lu", m_size);
 
     CString strEditableValue;
 
@@ -261,13 +261,16 @@ HRESULT CRootVisualizer::GetItems(
 
         CComObject<CChildVisualizer>* pChildVisualizer;
         CComObject<CChildVisualizer>::CreateInstance(&pChildVisualizer);
+        if (pChildVisualizer == NULL)
+        {
+            return E_OUTOFMEMORY;
+        }
         pChildVisualizer->Initialize(m_pVisualizedExpression, m_size, i, m_fIsPointer);
 
         CComPtr<DkmEvaluationResult> pEvaluationResult;
         hr = pChildVisualizer->CreateEvaluationResult(
             pChildName,
             pChildFullName,
-            nullptr,
             DkmRootVisualizedExpressionFlags::None,
             m_pVisualizedExpression,
             m_pVisualizedExpression->InspectionContext(),
@@ -326,7 +329,7 @@ HRESULT CRootVisualizer::GetSize(
     _In_ DkmString* pFullName,
     _In_ LPCWSTR pMemberName,
     _In_ bool rootIsPointer,
-    _Out_ unsigned long long* pSize
+    _Out_ unsigned int* pSize
 )
 {
     HRESULT hr = S_OK;
@@ -385,7 +388,7 @@ HRESULT CRootVisualizer::GetSize(
 
     LPCWSTR sizeStr = pValue->Value();
     LPWSTR endPtr;
-    *pSize = wcstoull(sizeStr, &endPtr, 0);
+    *pSize = wcstoul(sizeStr, &endPtr, 0);
     if (sizeStr == endPtr)
     {
         return E_FAIL;
