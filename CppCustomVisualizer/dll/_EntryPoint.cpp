@@ -54,7 +54,8 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::EvaluateVisualizedExpress
     CString strEditableValue;
 
     // If we are formatting a pointer, we want to also show the address of the pointer
-    if (pRootVisualizedExpression->Type() != nullptr && wcschr(pRootVisualizedExpression->Type()->Value(), '*') != nullptr)
+    CComPtr<DkmString> pType = pRootVisualizedExpression->Type();
+    if (pType != nullptr && wcschr(pType->Value(), '*') != nullptr)
     {
         // Make the editable value just the pointer string
         UINT64 address = pPointerValueHome->Address();
@@ -225,6 +226,7 @@ HRESULT STDMETHODCALLTYPE CCppCustomVisualizerService::UseDefaultEvaluationBehav
     }
 
     CComPtr<DkmEvaluationResult> pEEEvaluationResult;
+    #pragma warning(suppress : 6387) // 'pLanguageExpression' could be 0
     hr = pVisualizedExpression->EvaluateExpressionCallback(
         pInspectionContext,
         pLanguageExpression,
@@ -348,7 +350,7 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
         return WIN32_LAST_ERROR();
     }
 
-    pBuffer += (cch-1L); // '-1' is to convert from a character count (including null terminator) to a length
+    pBuffer += ((int64_t)cch-1); // '-1' is to convert from a character count (including null terminator) to a length
     int remainaingLength = allocLength - (cch-1);
 
     // Add a space between the date and the time
