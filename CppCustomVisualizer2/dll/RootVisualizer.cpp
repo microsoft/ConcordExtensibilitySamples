@@ -5,7 +5,7 @@
 
 HRESULT CRootVisualizer::Initialize(
     _In_ DkmVisualizedExpression* pVisualizedExpression,
-    _In_ unsigned int size,
+    _In_ unsigned long long size,
     _In_ bool isPointer)
 {
     m_pVisualizedExpression = pVisualizedExpression;
@@ -33,7 +33,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
 
     CString evalText;
     bool isPointer = (pType != nullptr && wcschr(pType->Value(), '*') != nullptr);
-    unsigned int sizeA;
+    unsigned long long sizeA;
     hr = GetSize(
         pVisualizedExpression,
         pFullName,
@@ -46,7 +46,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(_In_ DkmVisualizedExpression* pV
         return hr;
     }
 
-    unsigned int sizeB;
+    unsigned long long sizeB;
     hr = GetSize(
         pVisualizedExpression,
         pFullName,
@@ -114,7 +114,7 @@ HRESULT CRootVisualizer::CreateEvaluationResult(
     }
 
     CString strValue;
-    strValue.Format(L"Size = %lu", m_size);
+    strValue.Format(L"Size = %llu", m_size);
 
     CString strEditableValue;
 
@@ -207,7 +207,7 @@ HRESULT CRootVisualizer::GetChildren(
 
     CComPtr<DkmEvaluationResultEnumContext> pEnumContext;
     hr = DkmEvaluationResultEnumContext::Create(
-        m_size,
+        (DWORD) min(m_size, (unsigned long long)UINT_MAX),
         m_pVisualizedExpression->StackFrame(),
         pInspectionContext,
         this,
@@ -271,6 +271,7 @@ HRESULT CRootVisualizer::GetItems(
         hr = pChildVisualizer->CreateEvaluationResult(
             pChildName,
             pChildFullName,
+            nullptr,
             DkmRootVisualizedExpressionFlags::None,
             m_pVisualizedExpression,
             m_pVisualizedExpression->InspectionContext(),
@@ -329,7 +330,7 @@ HRESULT CRootVisualizer::GetSize(
     _In_ DkmString* pFullName,
     _In_ LPCWSTR pMemberName,
     _In_ bool rootIsPointer,
-    _Out_ unsigned int* pSize
+    _Out_ unsigned long long* pSize
 )
 {
     HRESULT hr = S_OK;
@@ -388,7 +389,7 @@ HRESULT CRootVisualizer::GetSize(
 
     LPCWSTR sizeStr = pValue->Value();
     LPWSTR endPtr;
-    *pSize = wcstoul(sizeStr, &endPtr, 0);
+    *pSize = wcstoull(sizeStr, &endPtr, 0);
     if (sizeStr == endPtr)
     {
         return E_FAIL;

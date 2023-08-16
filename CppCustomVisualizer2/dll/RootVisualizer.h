@@ -10,7 +10,7 @@ class ATL_NO_VTABLE __declspec(uuid("1b029bbd-27fa-4872-b27a-bad9a22d6603")) CRo
 {
 private:
     CComPtr<DkmVisualizedExpression> m_pVisualizedExpression;
-    unsigned int m_size;
+    unsigned long long m_size;
     bool m_fIsPointer;
 
 public:
@@ -28,7 +28,7 @@ public:
 
     HRESULT STDMETHODCALLTYPE Initialize(
         _In_ DkmVisualizedExpression* pVisualizedExpression,
-        _In_ unsigned int size,
+        _In_ unsigned long long size,
         _In_ bool isPointer
     );
 
@@ -67,7 +67,7 @@ protected:
         _In_ DkmString* pFullName,
         _In_ LPCWSTR pMemberName,
         _In_ bool rootIsPointer,
-        _Out_ unsigned int* pSize
+        _Out_ unsigned long long* pSize
     );
 
     HRESULT STDMETHODCALLTYPE _InternalQueryInterface(REFIID riid, void** ppvObject)

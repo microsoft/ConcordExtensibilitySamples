@@ -36,6 +36,7 @@ public:
     HRESULT STDMETHODCALLTYPE CreateEvaluationResult(
         _In_ DkmString* pName,
         _In_ DkmString* pFullName,
+        _In_opt_ DkmString* pType,
         _In_ Evaluation::DkmRootVisualizedExpressionFlags_t flags,
         _In_opt_ Evaluation::DkmVisualizedExpression* pParent,
         _In_ Evaluation::DkmInspectionContext* pInspectionContext,
