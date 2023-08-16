@@ -64,7 +64,7 @@ HRESULT CChildVisualizer::CreateEvaluationResult(
         DkmEvaluationResultFlags::Expandable | DkmEvaluationResultFlags::ReadOnly,
         pValue,
         pValue,
-        nullptr,
+        pType,
         DkmEvaluationResultCategory::Class,
         DkmEvaluationResultAccessType::None,
         DkmEvaluationResultStorageType::None,
