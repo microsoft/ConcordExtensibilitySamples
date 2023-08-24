@@ -207,7 +207,7 @@ HRESULT CRootVisualizer::GetChildren(
 
     CComPtr<DkmEvaluationResultEnumContext> pEnumContext;
     hr = DkmEvaluationResultEnumContext::Create(
-        m_size,
+        (DWORD) min(m_size, (unsigned long long)UINT_MAX),
         m_pVisualizedExpression->StackFrame(),
         pInspectionContext,
         this,
@@ -261,6 +261,10 @@ HRESULT CRootVisualizer::GetItems(
 
         CComObject<CChildVisualizer>* pChildVisualizer;
         CComObject<CChildVisualizer>::CreateInstance(&pChildVisualizer);
+        if (pChildVisualizer == NULL)
+        {
+            return E_OUTOFMEMORY;
+        }
         pChildVisualizer->Initialize(m_pVisualizedExpression, m_size, i, m_fIsPointer);
 
         CComPtr<DkmEvaluationResult> pEvaluationResult;
