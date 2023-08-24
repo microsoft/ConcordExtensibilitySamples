@@ -350,7 +350,7 @@ HRESULT CCppCustomVisualizerService::FileTimeToText(const FILETIME& fileTime, CS
         return WIN32_LAST_ERROR();
     }
 
-    pBuffer += ((int64_t)cch-1); // '-1' is to convert from a character count (including null terminator) to a length
+    pBuffer += ((size_t)cch-1); // '-1' is to convert from a character count (including null terminator) to a length
     int remainaingLength = allocLength - (cch-1);
 
     // Add a space between the date and the time
