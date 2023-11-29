@@ -35,7 +35,7 @@ int wmain(int argc, WCHAR* argv[])
 
     FILETIME FTZero = {};
 
-    __debugbreak(); // program will stop here. Evaluate 'creationTime' and 'pPointerTest' in the locals or watch window.
+    __debugbreak(); // program will stop here. Evaluate one of the local variables (ex: 'creationTime') in the locals or watch window.
     std::cout << "Test complete\n";
 
     return 0;
