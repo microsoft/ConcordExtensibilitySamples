@@ -13,7 +13,7 @@ int wmain(int argc, WCHAR* argv[])
     sample.a = { 1, 2, 3, 4, 5 };
     sample.b = { 5, 4, 3, 2, 1 };
 
-    __debugbreak(); // program will stop here. Evaluate 'creationTime' and 'pPointerTest' in the locals or watch window.
+    __debugbreak(); // program will stop here. Evaluate 'sample' in the locals or watch window.
     std::cout << "Test complete\n";
 
     return 0;
