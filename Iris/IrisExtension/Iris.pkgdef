@@ -14,6 +14,8 @@
 [$RootKey$\AD7Metrics\ExpressionEvaluator\{3456107B-A1F4-4D47-8E18-7CF2C54559AE}\{994b45c4-e6e9-11d2-903f-00c04fa302a1}]
 "Name"="Iris"
 "Language"="Iris"
+; Register Microsoft's ClrCustomVisualizerVSHost.dll as the IDebugCustomViewer implementation (`metricCustomVisualizerVSHost`).
+"ClrCustomVisualizerVSHost"="{E82F32A8-074E-465A-86E5-D68A87284F61}"
 
 ; ************************************************************
 ; Begin_region: Register file extension mapping for .NET Cross-Platform scenarios
