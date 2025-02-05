@@ -173,7 +173,7 @@ HRESULT CChildVisualizer::GetItems(
     {
         CString evalText;
 
-        UINT32 index = StartIndex + 1;
+        UINT32 index = StartIndex + i;
         VSAnalysisAssume(index < _countof(itemExprsPtr) && index < _countof(itemExprs) , "Should be impossible: already validated at start of function");
         if (m_fRootIsPointer)
         {
