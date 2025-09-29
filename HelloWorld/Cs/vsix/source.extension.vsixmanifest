@@ -6,7 +6,7 @@
         <Description xml:space="preserve">C# HelloWorld Debugger Sample</Description>
     </Metadata>
     <Installation>
-      <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+      <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 19.0)">
         <ProductArchitecture>amd64</ProductArchitecture>
       </InstallationTarget>
     </Installation>

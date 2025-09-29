@@ -4,7 +4,7 @@ Visual Studio Debug Engine Extensibility Samples
 ### What are "Concord Extensibility Samples"?
 [Concord](https://github.com/Microsoft/ConcordExtensibilitySamples/wiki/Overview) is the code name for Visual Studio's new debug engine that first shipped in Visual Studio 2012.  Concord was designed to be extensible and this repo contains samples of these extensions.
 
-The samples in this repo currently target Visual Studio 2022 (version 17.0). For older versions of these samples, please see the [VS16 branch](https://github.com/Microsoft/ConcordExtensibilitySamples/tree/VS16).
+The samples in this repo currently target Visual Studio 2022+ (version 17.0+). For older versions of these samples, please see the [VS16 branch](https://github.com/Microsoft/ConcordExtensibilitySamples/tree/VS16).
 
 ### Getting started
 
