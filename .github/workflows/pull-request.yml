@@ -22,7 +22,7 @@ jobs:
         fetch-depth: 0
 
     - name: Setup NuGet.exe for use with actions
-      uses: NuGet/setup-nuget@b26b823c478ee115be5c9403e62c90b0bf943843 # v3.1.0
+      uses: NuGet/setup-nuget@fd55a6f3b34392fa83fde1454582407d8c714123 # v4.0
 
     - name: Build.cmd
       run: ${{ github.workspace }}\build.cmd /p:Configuration=$env:Configuration
